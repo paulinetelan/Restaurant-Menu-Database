@@ -1,0 +1,83 @@
+<!-- <?php 
+     $user = 'root';
+     $password = 'root';
+     $db = 'something';
+     $host = 'localhost';
+     $port = 8889;
+     ?> -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset = "utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Restaurant Menu</title>
+
+    <link href = "bootstrap.css" rel = "stylesheet">
+  </head>
+
+  <script>
+    function initializeListofBranches(){
+
+	// Create list of branch links
+	var ulist = document.getElementById("branches");
+	var newItem = document.createElement("li");
+
+	for(int i = 0; i < 5; i++){
+		var a = document.createElement("a");
+
+		a.textContent = "hello";
+		a.setAttribute('href', "http://www.msn.com");
+		newItem.appendChild(a);
+		ulist.appendChild(newItem);
+	}	
+
+    }
+  </script>
+
+  <body onload = "initializeListofBranches()">
+    <header class = "container">
+      <h1>Good Earth Menu</h1>
+
+    </header>
+
+    <div class = "col-lg-4">
+      <h3> Log-in </h3>
+
+      <!-- log in form over here?? -->
+      Username: <input type = "text" name = "username"><br> <br>
+      Password: <input type = "text" name = "password"><br> <br>
+      Admin? <input type = "checkbox" name = "adminflag" value = "Admin"> <br> <br>
+      <input type = "submit" value = "Log in">
+
+    </div>
+
+    <div class = "col-lg-4">
+      <h3>Branches </h3>
+	<ul id = "branches">
+     	 <!-- list branches here -->
+	</ul>
+    </div>
+
+    <div class = "col-lg-4">
+      <h3>Menu </h3>
+      <!-- MENU_ITEM  INGREDIENT/S  DIETARY_RESTRICTION FAVOURITE(checkbox?) -->
+      <table border = "1">
+	<tr>
+	<th> Item </th>
+	<th> Ingredient/s </th>
+	<th> Dietary Restriction/s </th>
+	</tr>
+	<tbody id = "menu">
+	<!--- populated with clicked branch's menu -->
+	</tbody>
+      </table>
+
+    </div>
+
+  </body>
+
+</html>
