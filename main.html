@@ -22,18 +22,17 @@
   <script>
     function initializeListofBranches(){
 
-	// Create list of branch links
+	// Create list of branch link
 	var ulist = document.getElementById("branches");
-	var newItem = document.createElement("li");
 
-	for(int i = 0; i < 5; i++){
+	for(var i = 0; i < 5; i++){
 		var a = document.createElement("a");
-
-		a.textContent = "hello";
-		a.setAttribute('href', "http://www.msn.com");
+		var newItem = document.createElement("li")
+		a.textContent = i;
+		a.setAttribute('href', "#");
 		newItem.appendChild(a);
 		ulist.appendChild(newItem);
-	}	
+}	
 
     }
   </script>
