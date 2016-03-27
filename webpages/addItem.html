@@ -1,0 +1,88 @@
+<!-- Page for adding a food item
+     TODO: Have to add "add ingredient" option
+     ?> -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset = "utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Restaurant Menu</title>
+
+    <link href = "bootstrap.css" rel = "stylesheet">
+    
+  </head>
+
+  <script>
+
+    <!-- TODO: fetch ingredient names from database and load it with checkbox list -->
+    function loadIngredients(){
+    var br = document.createElement("br");
+
+    // Create list of ingredients with checkbox
+    for (var i = 0; i < 5; i++){
+			var checkbox = document.createElement("input");
+			var description = document.createTextNode(i);
+			var label = document.createElement("label");
+			checkbox.type = "checkbox";
+			checkbox.name = "name";
+			checkbox.value = i;
+
+			label.appendChild(checkbox);
+			label.appendChild(description);
+
+			document.getElementById("listOfIngredients").appendChild(label);
+
+			<!-- create new textbox in new line not working? -->
+			document.getElementById("listOfIngredients").appendChild(br);
+			document.getElementById("listOfIngredients").appendChild(br);
+			}
+			}
+
+
+  </script>
+
+
+  <body onload = "loadIngredients()">
+    <header class = "container">
+      <h1>Good Earth Menu</h1>
+    </header>
+
+    <div class = "col-lg-4">
+      <h3> Add Food Item </h3>
+
+      <!-- log in form -->
+      <!-- TODO: submit form to database -->
+      <form action = "editMenu.html">
+
+	Name: <input type = "text" name = "itemName"><br> <br>
+
+	Meal type: <input type = "text" name = "mealType"><br> <br>
+
+	Ingredient/s: 
+	<div class = "well sidebar-nav" id = "listOfIngredients">
+	  <!-- load list of pre added ingredients here as checkbox-->
+	  <!-- TODO: fetch this info from database -->
+	</div>
+
+	Calories: <input type = "text" name = "totalCalories"> <br> <br>
+
+	<!-- TODO: submit form when this is clicked but check which ingredients are checked first-->
+	<input type = "submit" value = "Add item"> 
+
+      </form>
+      
+    </div>
+    <div class = "col-lg-2">
+      </div>
+
+    <!-- TODO: create add ingredient form here -->
+    <div class = "col-lg-4">
+      <h3>Add Ingredient</h3>
+      </div>
+  </body>
+
+</html>

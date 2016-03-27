@@ -1,10 +1,4 @@
-<!-- <?php 
-     $user = 'root';
-     $password = 'root';
-     $db = 'something';
-     $host = 'localhost';
-     $port = 8889;
-     ?> -->
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -20,6 +14,9 @@
   </head>
 
   <script>
+
+<!-- TODO: fetch list of branches from database & change link so that menu of 
+  selected branch is loaded when clicked -->
     function initializeListofBranches(){
 
 	// Create list of branch link
@@ -32,36 +29,33 @@
 		a.setAttribute('href', "#");
 		newItem.appendChild(a);
 		ulist.appendChild(newItem);
-}	
+			   }	
 
     }
   </script>
 
+  
   <body onload = "initializeListofBranches()">
     <header class = "container">
       <h1>Good Earth Menu</h1>
+      <h3> (Admin Edit mode) </h3>
 
     </header>
 
-    <div class = "col-lg-4">
-      <h3> Log-in </h3>
-
-      <!-- log in form over here?? -->
-      Username: <input type = "text" name = "username"><br> <br>
-      Password: <input type = "text" name = "password"><br> <br>
-      Admin? <input type = "checkbox" name = "adminflag" value = "Admin"> <br> <br>
-      <input type = "submit" value = "Log in">
-
-    </div>
-
-    <div class = "col-lg-4">
+    <div class = "col-lg-6">
       <h3>Branches </h3>
 	<ul id = "branches">
      	 <!-- list branches here -->
 	</ul>
+
+	<br>
+      <!--  add branches -->
+      <h4> Add Branch </h4>
+      Branch name: <input type = "text" name = "branchName"> <br>
+      <input type = "submit" value = "Add">
     </div>
 
-    <div class = "col-lg-4">
+    <div class = "col-lg-6">
       <h3>Menu </h3>
       <!-- MENU_ITEM  INGREDIENT/S  DIETARY_RESTRICTION FAVOURITE(checkbox?) -->
       <table border = "1">
@@ -74,6 +68,11 @@
 	<!--- populated with clicked branch's menu -->
 	</tbody>
       </table>
+
+      <br>
+      
+      <!-- link to add items -->
+      <a href = "addItem.html"> Add item </a>
 
     </div>
 
