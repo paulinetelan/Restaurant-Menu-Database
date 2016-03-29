@@ -19,7 +19,7 @@
   <script>
 
     <!-- TODO: fetch ingredient names from database and load it with checkbox list -->
-    function loadIngredients(){
+function loadIngredients(){
     var br = document.createElement("br");
 
     // Create list of ingredients with checkbox
@@ -40,7 +40,8 @@
 			document.getElementById("listOfIngredients").appendChild(br);
 			document.getElementById("listOfIngredients").appendChild(br);
 			}
-			}
+		}
+
 
 
   </script>
@@ -68,10 +69,10 @@
 	  <!-- TODO: fetch this info from database -->
 	</div>
 
-	Calories: <input type = "text" name = "totalCalories"> <br> <br>
+	Total Calories: <input type = "text" name = "totalCalories"> <br> <br>
 
 	<!-- TODO: submit form when this is clicked but check which ingredients are checked first-->
-	<input type = "submit" value = "Add item"> 
+	<input type = "submit" value = "Add Item"> 
 
       </form>
       
@@ -79,9 +80,14 @@
     <div class = "col-lg-2">
       </div>
 
-    <!-- TODO: create add ingredient form here -->
+    <!-- ingredient form here -->
     <div class = "col-lg-4">
       <h3>Add Ingredient</h3>
+      Name: <input type = "text" name = "ingredientName"> <br><br>
+      Number of Calories: <input type = "text" name = "ingredientCalories"> <br><br>
+
+      
+      <input type = "submit" value = "Add Ingredient" onclick = "loadIngredients()">
       </div>
   </body>
 
