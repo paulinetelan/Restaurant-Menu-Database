@@ -1,0 +1,75 @@
+<!-- <?php 
+     $user = 'root';
+     $password = 'root';
+     $db = 'something';
+     $host = 'localhost';
+     $port = 8889;
+     ?> -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset = "utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Restaurant Menu Signup</title>
+
+    <link href = "bootstrap.css" rel = "stylesheet">
+  </head>
+
+  <script>
+
+    function addCustomer()
+    {
+    
+    // Get the fields needed
+    var fname = document.getElementById("fname").value;
+    var lname = document.getElementById("lname").value;
+    var uname = document.getElementById("username").value;
+    var pw = document.getElementById("password").value;
+    var email = document.getElementById("email").value;
+
+    if( fname == ""|| fname == null,  lname == "" || lname == null,  uname == ""|| uname == null,  pw == ""|| pw == null,  email == "" || email == null)
+    {
+
+    alert("One or more of the required fields is invalid!");
+    return;
+    
+    }
+
+    // notify user was added
+    alert(fname + " " + lname + " " + uname + " " + pw + " " + email + " successfully added" );
+
+    // send back to login screen
+    window.location.href = "login.html";
+
+    }
+
+  </script>
+
+
+  <body>
+    <header class = "container">
+      <h1>Good Earth Menu</h1>
+    </header>
+
+    <div class = "col-lg-4">
+      <h3> Registration</h3> <br>
+
+      <!-- registration form -->
+      First name: <input type = "text" id = "fname"><br> <br>
+      Last name: <input type = "text" id = "lname"><br> <br>
+      Username: <input type = "text" id = "username"><br> <br>
+      Password: <input type = "password" id = "password"><br> <br>
+      Email: <input type = "text" id = "email"><br><br>
+
+      <!-- TODO: submit account to database on click -->
+      <input type = "submit" value = "Register!" onclick = "addCustomer()"> 
+
+    </div>
+
+  </body>
+
+</html>
