@@ -1,6 +1,9 @@
 <html>
 //reached from DietaryRestrictions
-
+<head>
+<title>Menu</title>
+</head>
+<body>
 //get database results
 
 //display results
@@ -21,4 +24,5 @@
 <br>
 <h3>Beverages:</h3>
 //display type=drink
+</body>
 </html>
