@@ -11,6 +11,10 @@
     <link href = "bootstrap.css" rel = "stylesheet">
   </head>
 
+  // INCLUDE JQUERY LIB
+  <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+    
+
   <script>
 
     var WS_url = "webservice.php/";
@@ -20,11 +24,11 @@
     {
 
      // Get the fields needed
-    var fname = document.getElementById("fname").value;
-    var lname = document.getElementById("lname").value;
-    var uname = document.getElementById("username").value;
-    var pw = document.getElementById("password").value;
-    var email = document.getElementById("email").value;
+    var fname = $("#fname").val();
+    var lname = $("#lname").val();
+    var uname = $("#username").val();
+    var pw = $("#password").val();
+    var email = $("#email").val();
 
     // check for valid inputs
     if( fname == ""|| fname == null,  lname == "" || lname == null,  uname == ""|| uname == null,  pw == ""|| pw == null,  email == "" || email == null)
@@ -36,23 +40,15 @@
     }
     
     // AJAX Request
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() // callback
+    var http = function(response) // callback
     {
-    
-    // REPLY FROM WEBSERVICE
-    if (xhttp.readyState == 4 && xhttp.status == 200){
-    
-    // receive response to JSON object
-    var response = JSON.parse(escapeSpecialChars(xhttp.responseText));
 
     if(!response.success)
-    alert(reponse.message);
+    alert(response.message);
 
     else
     {
    
-
     // notify user was added
     alert(response.message);
 
@@ -60,29 +56,19 @@
     window.location.href = "login.html";
     }
 
-    }
+    
 
     };
 
     // encode multiple parameters into php query url
-    var req_url = encodeURIComponent(WS_url + "?method=addCustomer&fname="+fname+"&lname="+lname+"&uname="+uname+"&pw="+pw+"&email="+email);
+    var req_url = WS_url + "?method=addCustomer&fname="+fname+"&lname="+lname+"&uname="+uname+"&pw="+pw+"&email="+email;
 
     // REQUEST TO WEBSERVICE
-    xhttp.open("GET", req_url, true);
-    xhttp.send();
+    $.get(req_url, http);
 
     }
 
-    // Escapes special characters from response from webservice JSON string so that it works properly with JSON.parse
-    // NOTE: this code was taken from http://qnimate.com/json-parse-throws-unexpected-token-error-for-valid-json/
-    function escapeSpecialChars(jsonString) {
-
-            return jsonString.replace(/\n/g, "\\n")
-                .replace(/\r/g, "\\r")
-                .replace(/\t/g, "\\t")
-                .replace(/\f/g, "\\f");
-
-        }
+    
 
   </script>
 

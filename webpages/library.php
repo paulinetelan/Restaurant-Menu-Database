@@ -1,8 +1,9 @@
+<?php
+
 /*
 	Actual library functions that get data
 	contains queries to database
 */
-<?php
 	function getCustomers()
 	{
 		// Initialize array that will contain all data
