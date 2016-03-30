@@ -1,8 +1,9 @@
+<?php 
+      
 /**
 This php document returns data in JSON format
 **/
-
-<?php
+	header('Content-Type: application/json');
 
 	// Include library that returns the data or execute the required methods
 	include("./library.php"); 
@@ -53,7 +54,5 @@ This php document returns data in JSON format
 		 $output["message"] = $message;
 		 echo json_encode($output);
 	}
-
-}
 
 ?>

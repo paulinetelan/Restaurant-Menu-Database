@@ -39,8 +39,8 @@
     
     }
     
-    // AJAX Request
-    var http = function(response) // callback
+    // Function
+    var func = function(response) // callback
     {
 
     if(!response.success)
@@ -56,15 +56,10 @@
     window.location.href = "login.html";
     }
 
-    
-
     };
 
-    // encode multiple parameters into php query url
-    var req_url = WS_url + "?method=addCustomer&fname="+fname+"&lname="+lname+"&uname="+uname+"&pw="+pw+"&email="+email;
-
     // REQUEST TO WEBSERVICE
-    $.get(req_url, http);
+    $.get(WS_url, {method: "addCustomer", fname: fname, lname: lname, uname: uname, pw: pw, email: email}, func);
 
     }
 
