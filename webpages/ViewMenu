@@ -3,7 +3,7 @@
 <head>
 <title>Menu</title>
 </head>
-<body>
+<body style="background-color: #e6f2ff;">
 //get database results
 
 //display results
