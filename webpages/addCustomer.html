@@ -13,7 +13,7 @@
 
   <script>
 
-    var WS_url = "http://localhost:8888/webservice.php";
+    var WS_url = "webservice.php/";
 
     // add customer to database
     function addCustomer()
@@ -37,14 +37,14 @@
     
     // AJAX Request
     var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () // callback
+    xhttp.onreadystatechange = function() // callback
     {
     
     // REPLY FROM WEBSERVICE
     if (xhttp.readyState == 4 && xhttp.status == 200){
     
     // receive response to JSON object
-    var response = JSON.parse(xhttp.responseText);
+    var response = JSON.parse(escapeSpecialChars(xhttp.responseText));
 
     if(!response.success)
     alert(reponse.message);
@@ -64,11 +64,25 @@
 
     };
 
+    // encode multiple parameters into php query url
+    var req_url = encodeURIComponent(WS_url + "?method=addCustomer&fname="+fname+"&lname="+lname+"&uname="+uname+"&pw="+pw+"&email="+email);
+
     // REQUEST TO WEBSERVICE
-    xhttp.open("GET", WS_url + "?method=addCustomer&fname="+fname+"&lname="+lname+"&uname="+uname+"&pw="+pw+"&email="+email, true);
+    xhttp.open("GET", req_url, true);
     xhttp.send();
 
     }
+
+    // Escapes special characters from response from webservice JSON string so that it works properly with JSON.parse
+    // NOTE: this code was taken from http://qnimate.com/json-parse-throws-unexpected-token-error-for-valid-json/
+    function escapeSpecialChars(jsonString) {
+
+            return jsonString.replace(/\n/g, "\\n")
+                .replace(/\r/g, "\\r")
+                .replace(/\t/g, "\\t")
+                .replace(/\f/g, "\\f");
+
+        }
 
   </script>
 
