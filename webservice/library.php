@@ -1,5 +1,6 @@
 /*
 	Actual library functions that get data
+	contains queries to database
 */
 <?php
 	function getCustomers()

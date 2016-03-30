@@ -1,11 +1,3 @@
-<!-- <?php 
-     $user = 'root';
-     $password = 'root';
-     $db = 'something';
-     $host = 'localhost';
-     $port = 8889;
-     ?> -->
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -21,16 +13,20 @@
 
   <script>
 
+    var WS_url = "http://localhost:8888/webservice.php";
+
+    // add customer to database
     function addCustomer()
     {
-    
-    // Get the fields needed
+
+     // Get the fields needed
     var fname = document.getElementById("fname").value;
     var lname = document.getElementById("lname").value;
     var uname = document.getElementById("username").value;
     var pw = document.getElementById("password").value;
     var email = document.getElementById("email").value;
 
+    // check for valid inputs
     if( fname == ""|| fname == null,  lname == "" || lname == null,  uname == ""|| uname == null,  pw == ""|| pw == null,  email == "" || email == null)
     {
 
@@ -38,12 +34,39 @@
     return;
     
     }
+    
+    // AJAX Request
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () // callback
+    {
+    
+    // REPLY FROM WEBSERVICE
+    if (xhttp.readyState == 4 && xhttp.status == 200){
+    
+    // receive response to JSON object
+    var response = JSON.parse(xhttp.responseText);
+
+    if(!response.success)
+    alert(reponse.message);
+
+    else
+    {
+   
 
     // notify user was added
-    alert(fname + " " + lname + " " + uname + " " + pw + " " + email + " successfully added" );
+    alert(response.message);
 
     // send back to login screen
     window.location.href = "login.html";
+    }
+
+    }
+
+    };
+
+    // REQUEST TO WEBSERVICE
+    xhttp.open("GET", WS_url + "?method=addCustomer&fname="+fname+"&lname="+lname+"&uname="+uname+"&pw="+pw+"&email="+email, true);
+    xhttp.send();
 
     }
 

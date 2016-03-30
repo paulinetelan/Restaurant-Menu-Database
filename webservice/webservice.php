@@ -14,7 +14,7 @@ This php document returns data in JSON format
 		   json_getCustomers();
 	}
 	else if($method == "addCustomer"){
-	     json_addCustomer($_GET["fname"], $_GET["lname"], $_GET["username"], $_GET["password"], $_GET["email"]);
+	     json_addCustomer($_GET["fname"], $_GET["lname"], $_GET["uname"], $_GET["pw"], $_GET["email"]);
 	}
 
 	// WEBSERVICE METHODS
@@ -27,13 +27,13 @@ This php document returns data in JSON format
 		 echo json_encode($output);
 	}
 
-	function json_addCustomer($fname, $lname, $username, $password, $email){
+	function json_addCustomer($fname, $lname, $uname, $pw, $email){
 		 
 		 $valid = true;
 		 $message = "Customer added successfully";
 
 		 // Check if input values are taken
-		 if(!isset($fname) || !isset($lname) || !isset($username) || !isset($password) ||
+		 if(!isset($fname) || !isset($lname) || !isset($uname) || !isset($pw) ||
 		 !isset($email) ){
 		 		$valid = false;
 				$message = "Invalid input values";
@@ -42,7 +42,7 @@ This php document returns data in JSON format
 		 // Add user using library method
 		 if($valid)
 		 {
-			$valid = addCustomer($fname, $lname, $username, $password, $email);
+			$valid = addCustomer($fname, $lname, $uname, $pw, $email);
 			if(!$valid){
 				$message = "Something went wrong with insertion process";
 			}
