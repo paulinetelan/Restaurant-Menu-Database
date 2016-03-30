@@ -1,4 +1,15 @@
 <html>
-!Holds favourites
+<head>
+<title>Customer Profile</title>
+</head>
+<body>
+//get user
 
+//get favourites
+
+//display favourites
+
+//add/remove/edit items
+
+</body>
 </html>
