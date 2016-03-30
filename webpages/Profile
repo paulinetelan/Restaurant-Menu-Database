@@ -2,7 +2,7 @@
 <head>
 <title>Customer Profile</title>
 </head>
-<body>
+<body style="background-color: #e6f2ff;">
 //get user
 
 //get favourites
