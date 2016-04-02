@@ -17,11 +17,15 @@ This php document returns data in JSON format
 	}
 
 	else if($method == "addCustomer"){
-	     json_addCustomer($_GET["fname"], $_GET["lname"], $_GET["uname"], $_GET["pw"], $_GET["email"]);
+	     json_addCustomer($_GET["uname"], $_GET["pw"], $_GET["fname"], $_GET["lname"], $_GET["email"], $_GET["branch_name"]);
 	}
 
 	else if($method == "getBranches"){
 	     json_getBranches();
+	}
+
+	else if($method == "customerLogin"){
+	     json_customerLogin();
 	}
 	
 
@@ -44,7 +48,7 @@ This php document returns data in JSON format
 		 echo json_encode($output);
 	}
 
-	function json_addCustomer($fname, $lname, $uname, $pw, $email, $branch_name){
+	function json_addCustomer($uname, $pw, $fname, $lname, $email, $branch_name){
 		 
 		 $valid = true;
 		 $message = "Customer added successfully";
@@ -59,9 +63,9 @@ This php document returns data in JSON format
 		 // Add user using library method
 		 if($valid)
 		 {
-			$valid = addCustomer($fname, $lname, $uname, $pw, $email, $branch_name);
+			$valid = addCustomer($uname, $pw, $fname, $lname, $email, $branch_name);
 			if(!$valid){
-				$message = "Something went wrong with insertion process";
+				$message = "Username is already taken!";
 			}
 		 }
 
@@ -69,6 +73,31 @@ This php document returns data in JSON format
 		 $output["success"] = $valid;
 		 $output["message"] = $message;
 		 echo json_encode($output);
+	}
+
+	// checks Customer table for login credentials
+	// returns data as true or false depending if uname and pw match
+	function json_customerLogin($uname, $pw)
+	{
+		$valid = true;
+		$message = "Customer logged in successfully";
+		$output = array();
+		
+		// Check if input values are taken
+		 if(!isset($uname) || !isset($pw)){
+		 		$valid = false;
+				$message = "Invalid input values";
+		 }
+
+		 // check user login credentials
+		 if($valid){
+		 	$output["data"] = customerLogin($uname, $pw);
+
+		 }
+
+		 
+		 $output["success"] = $valid;
+		 $output["message"] = $message;
 	}
 
 

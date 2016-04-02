@@ -1,7 +1,11 @@
-// INCLUDES ALL JAVASCRIPT FUNCTIONS FOR WEBSITE
+/* INCLUDES ALL JAVASCRIPT FUNCTIONS FOR WEBSITE
+ */
 
-// WEBSERVICE URL
+// webservice URL
 var WS_url = "webservice.php/";
+
+
+/////// FUNCTIONS FOR ADDITEM.html //////////
 
 // TODO: fetch ingredient names from database and load it with checkbox list 
 function loadIngredients(){
@@ -33,6 +37,7 @@ function loadIngredients(){
 
 }
 
+////// FUNCTIONS FOR  ADDCUSTOMER.html //////
 
 // add customer to database
 function addCustomer()
@@ -49,35 +54,37 @@ function addCustomer()
     // check for valid inputs
     if( fname == ""|| fname == null,  lname == "" || lname == null,  uname == ""|| uname == null,  pw == ""|| pw == null,  email == "" || email == null || branch_name == null)
     {
-
-	// Function
-	var func = function(response) // callback
-	{
-
-	    if(!response.success)
-		alert(response.message);
-
-	    else
-	    {
-		
-		// notify user was added
-		alert(response.message);
-
-		// send back to login screen
-		window.location.href = "login.html";
-	    }
-
-	};
-
-	// REQUEST TO WEBSERVICE
-	$.get(WS_url, {method: "addCustomer", fname: fname, lname: lname, uname: uname, pw: pw, email: email, branch_name: branch_name}, func);
-
-
+	alert("Invalid input!");
+	return;
     }
+
+    // Function
+    var func = function(response) // callback
+    {
+
+	if(!response.success)
+	    alert(response.message);
+
+	else
+	{
+	    
+	    // notify user was added
+	    alert(response.message);
+
+	    // send back to login screen
+	    window.location.href = "login.html";
+	}
+
+    };
+
+    // REQUEST TO WEBSERVICE
+    $.get(WS_url, {method: "addCustomer", uname: uname, pw: pw, fname: fname, lname: lname, email: email, branch_name: branch_name}, func);
+
+
+
 }
 
 // load list of branches into dropdown for customer to choose 
-// for addCustomer page
 function loadBranchlist_addCustomer()
 {
     
@@ -105,6 +112,68 @@ function loadBranchlist_addCustomer()
     
 }
 
+////// FUNCTIONS FOR  HOMEADMIN.html //////
+
+// NOT FINISHED
+function initializeListofBranches(){
+
+    // Create list of branch link
+    var ulist = document.getElementById("branches");
+
+    for(var i = 0; i < 5; i++){
+	var a = document.createElement("a");
+	var newItem = document.createElement("li")
+	a.textContent = i;
+	a.setAttribute('href', "#");
+	newItem.appendChild(a);
+	ulist.appendChild(newItem);
+    }	
+
+}
+
+//////// FUNCTIONS FOR LOGIN.html //////////
+function login(){
+    
+    // get values
+    var uname = $("#username").val();
+    var pw = $("#password").val();
+    var isAdmin = $("#adminflag").is(":checked");
+    
+    // TODO: check admin table
+    if(isAdmin){
+
+    }
+    // check customer table
+    else{
+
+	var func = function(response)
+	{
+	    if(!response.success)
+		alert(response.message);
+
+	    else
+	    {
+		if(response.data){
+		    // send back to customer's homepage
+		    window.location.href = "homeCustomer.html";
+		}
+		else{
+		    // notify user wrong cred
+		    $("#invalidalert").show();
+		}
+	    }
+
+
+	}
+
+	
+
+	$.get(WS_url, {method: "customerLogin", uname: uname, pw: pw}, func);
+
+    
+    }
+    
+}
 
 
 

@@ -30,10 +30,11 @@
       <h3> Log-in </h3>
 
       <!-- log in form -->
-      Username: <input type = "text" name = "username"><br> <br>
-      Password: <input type = "text" name = "password"><br> <br>
-      Admin? <input type = "checkbox" name = "adminflag" value = "Admin"> <br> <br>
-      <input type = "submit" value = "Log in"> 
+      <div id = "invalidalert" style = "visibility: hidden">Invalid username/password!</div>
+      Username: <input type = "text" id = "username" placeholder = "Username"><br> <br>
+      Password: <input type = "text" id = "password" placeholder = "Password"><br> <br>
+      Admin? <input type = "checkbox" id = "adminflag" value = "Admin"> <br> <br>
+      <input type = "submit" value = "Log in" onclick = "login()"> 
 
       <!-- Links to register -->
       <a href = "addCustomer.html">&nbsp &nbsp Sign-up</a>
