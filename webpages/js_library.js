@@ -75,7 +75,7 @@ function addCustomer()
 	    window.location.href = "login.html";
 	}
 
-    };
+    }
 
     // REQUEST TO WEBSERVICE
     $.get(WS_url, {method: "addCustomer", uname: uname, pw: pw, fname: fname, lname: lname, email: email, branch_name: branch_name}, func);
@@ -105,7 +105,7 @@ function loadBranchlist_addCustomer()
 	    }
 	}
 
-    }
+    };
     
     $.get(WS_url, {method: "getBranches"}, func);
     
@@ -134,7 +134,7 @@ function initializeListofBranches(){
 //////// FUNCTIONS FOR LOGIN.html //////////
 function login(){
     
-    // get values
+      // get values
     var uname = $("#username").val();
     var pw = $("#password").val();
     var isAdmin = $("#adminflag").is(":checked");
@@ -146,33 +146,19 @@ function login(){
     // check customer table
     else{
 
-	var func = function(response)
-	{
-	    if(!response.success)
-		alert(response.message);
-
-	    else
-	    {
-		if(response.data){
-		    // send back to customer's homepage
-		    window.location.href = "homeCustomer.html";
-		}
-		else{
-		    // notify user wrong cred
-		    $("#invalidalert").show();
-		}
+	$.get(WS_url, {method: "customerLogin", uname: uname, pw: pw}, function(response){
+	    if(response.success){
+		// send back to customer's homepage
+		window.location.href = "homeCustomer.html";
 	    }
-
-
-	}
-
+	    else{
+		// notify user wrong cred
+		alert(response.message);
+	    }
+	});
 	
-
-	$.get(WS_url, {method: "customerLogin", uname: uname, pw: pw}, func);
-
-    
     }
-    
+   ///
 }
 
 

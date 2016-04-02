@@ -25,7 +25,7 @@ This php document returns data in JSON format
 	}
 
 	else if($method == "customerLogin"){
-	     json_customerLogin();
+	     json_customerLogin($_GET["uname"], $_GET["pw"]);
 	}
 	
 
@@ -81,7 +81,6 @@ This php document returns data in JSON format
 	{
 		$valid = true;
 		$message = "Customer logged in successfully";
-		$output = array();
 		
 		// Check if input values are taken
 		 if(!isset($uname) || !isset($pw)){
@@ -91,14 +90,20 @@ This php document returns data in JSON format
 
 		 // check user login credentials
 		 if($valid){
-		 	$output["data"] = customerLogin($uname, $pw);
-
+		 	$valid = customerLogin($uname, $pw);
+			if(!$valid){
+				
+				$message = "Customer log in failed!";
+			}
 		 }
 
 		 
+		 $output = array();
 		 $output["success"] = $valid;
 		 $output["message"] = $message;
+		 echo json_encode($output);
 	}
+
 
 
 

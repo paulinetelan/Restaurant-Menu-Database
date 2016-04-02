@@ -97,7 +97,7 @@
 		if($sqlcheck->num_rows != 0){
 			   return false;
 		}
-		else
+		else // add customer
 		{
 			// create sql statement
 			$sql = $link->prepare("INSERT INTO Customer(uname, pw, fname, lname, email, branch_name) VALUES (?, ?, ?, ?, ?, ?)");
@@ -110,27 +110,21 @@
 		}
 	}
 
-	// check customer login
+	// returns true iff uname and pw combo matches one in db
 	function customerLogin($uname, $pw)
 	{
 		global $link;
 
 		// create sql statement
-		$sql = $link->prepare("SELECT pw FROM Customer(uname, _, _, _, _, _) WHERE uname = ?");
-		$sql->bind_param('s', $uname);
+		$sql = $link->prepare("SELECT Customer.pw FROM Customer WHERE Customer.uname = ? AND Customer.pw = ?");
+		$sql->bind_param('ss', $uname, $pw);
+		$sql->execute();
+		$sql->store_result();
 
 		// check
-		if($result = $link->query($sql))
+		if($sql->num_rows == 1)
 		{
-			// get tuple
-			$obj = $result->fetch_object();
-			
-			// compare $pw with pw from db
-			if($obj->pw == $pw){
-				    return true;
-			}
-			
-		
+			return true;
 		}
 
 		return false;
