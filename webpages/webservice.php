@@ -11,14 +11,21 @@ This php document returns data in JSON format
 	// CHECK REQUEST
 	// Check the method requested by site and execute
 	$method = $_GET["method"];
+
 	if($method == "getCustomers"){
 		   json_getCustomers();
 	}
+
 	else if($method == "addCustomer"){
 	     json_addCustomer($_GET["fname"], $_GET["lname"], $_GET["uname"], $_GET["pw"], $_GET["email"]);
 	}
 
-	// WEBSERVICE METHODS
+	else if($method == "getBranches"){
+	     json_getBranches();
+	}
+	
+
+	/////// WEBSERVICE METHODS ///////////
 
 	function json_getCustomers(){
 		 $output = array();
@@ -28,14 +35,23 @@ This php document returns data in JSON format
 		 echo json_encode($output);
 	}
 
-	function json_addCustomer($fname, $lname, $uname, $pw, $email){
+	// gets branches
+	function json_getBranches(){
+		 $output = array();
+		 $output["success"] = true;
+		 $output["message"] = "List of branches fetched successfully";
+		 $output["data"] = getBranches();
+		 echo json_encode($output);
+	}
+
+	function json_addCustomer($fname, $lname, $uname, $pw, $email, $branch_name){
 		 
 		 $valid = true;
 		 $message = "Customer added successfully";
 
 		 // Check if input values are taken
 		 if(!isset($fname) || !isset($lname) || !isset($uname) || !isset($pw) ||
-		 !isset($email) ){
+		 !isset($email) || !isset($branch_name)){
 		 		$valid = false;
 				$message = "Invalid input values";
 		 }
@@ -43,7 +59,7 @@ This php document returns data in JSON format
 		 // Add user using library method
 		 if($valid)
 		 {
-			$valid = addCustomer($fname, $lname, $uname, $pw, $email);
+			$valid = addCustomer($fname, $lname, $uname, $pw, $email, $branch_name);
 			if(!$valid){
 				$message = "Something went wrong with insertion process";
 			}
@@ -54,5 +70,7 @@ This php document returns data in JSON format
 		 $output["message"] = $message;
 		 echo json_encode($output);
 	}
+
+
 
 ?>

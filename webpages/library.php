@@ -5,19 +5,21 @@
 	contains queries to database
 */
 
-	$HOST = "localhost";
+	$C_HOST = "localhost";
 	$C_USER = "root";
-	$C_PASSWORD = "1234";
-	$C_DATABASE = "rest_database";
+	$C_PASSWORD = "root";
+	$C_DATABASE = "471db";
+	$C_PORT = 8889;
 
-	$link = mysqli_connect($C_HOST, $C_USER, $C_PASSWORD, $C_DATABASE);
-	if (!$link)
+	$link = new mysqli("$C_HOST", $C_USER, $C_PASSWORD, $C_DATABASE, $C_PORT);
+	if ($link->connect_errno)
 	{
-		echo mysqli_connect_error();
+		echo $mysqli->connect_error();
 	}
 
 	//////////// FUNCTIONS ///////////////////
 
+	
 	function getCustomers()
 	{
 		// Initialize array that will contain all data
@@ -28,40 +30,72 @@
 
 		// execute sql statement
 		global $link;
-		$results = mysqli_query($link, $sql);
-
-		// retrieve rows returned
-		while ($row = mysqli_fetch_row($results))
+		
+		// get rows
+		if($result = $link->query($sql))
 		{
-			// each object represents one user
-			$object = array(); // used as a dictionary (fname, lname)
+			// get individual row
+			while($obj = $result->fetch_object()){
+				   $info = array();
+				   $info["fname"] = $obj->fname;
+				   $info["lname"] = $obj->lname;
+				   $array[] = $info;
+			}
+		}		
+		
+		//clean up
+		$result->close();
+		unset($obj); 
+    		unset($sql); 
+    		unset($query); 
 
-			$object["fname"] = $row[0];
-			$object["lname"] = $row[1];
-
-			// add user to array
-			$array[] = $object;
-		}
 		return $array;
 	}
 
-	// adds customer to database and returns true if successful
-	function addCustomer($fname, $lname, $uname, $pw, $email)
+	// get list of branch names from database return true if successful
+	function getBranches()
 	{
 		global $link;
 
-		// escape special characters to avoid sql injection
-		$name =  mysqli_real_escape_string($link, $fname, $lname, $uname, $pw, $email);
-
-		// create sql statement
-		$sql = "INSERT INTO Customer(uname, pw, fname, lname, email) VALUES ($uname, $pw, $fname, $lname, $email)";
-		echo $sql;
+		// SQL statement
+		$sql = "SELECT DISTINCT restaurant_name FROM Store";
 
 		// execute sql statement
-		$results = mysqli_query($link, $sql);
+		global $link;
+		
+		// get rows
+		if($result = $link->query($sql))
+		{
+			// get individual row
+			while($obj = $result->fetch_object()){ 
+				   $array[] = $obj->restaurant_name;
+			}
+		}		
+		
+		//clean up
+		$result->close();
+		unset($obj); 
+    		unset($sql); 
+    		unset($query); 
+
+		return $array;
+
+	}
+
+
+	// adds customer to database and returns true if successful
+	function addCustomer($fname, $lname, $uname, $pw, $email, $branch_name)
+	{
+		global $link;
+
+		// create sql statement
+		$sql = $link->prepare("INSERT INTO Customer(uname, pw, fname, lname, email, branch_name) VALUES (?, ?, ?, ?, ?, ?)");
+		$sql->bind_param('ssssss', $uname, $pw, $fname, $lname, $email, $branch_name);
+
+		// execute sql statement
+		$sql->execute();
 
 		return true;
 	}
-
 
 ?>

@@ -16,35 +16,7 @@
     
   </head>
 
-  <script>
-
-    <!-- TODO: fetch ingredient names from database and load it with checkbox list -->
-function loadIngredients(){
-    var br = document.createElement("br");
-
-    // Create list of ingredients with checkbox
-    for (var i = 0; i < 5; i++){
-			var checkbox = document.createElement("input");
-			var description = document.createTextNode(i);
-			var label = document.createElement("label");
-			checkbox.type = "checkbox";
-			checkbox.name = "name";
-			checkbox.value = i;
-
-			label.appendChild(checkbox);
-			label.appendChild(description);
-
-			document.getElementById("listOfIngredients").appendChild(label);
-
-			<!-- create new textbox in new line not working? -->
-			document.getElementById("listOfIngredients").appendChild(br);
-			document.getElementById("listOfIngredients").appendChild(br);
-			}
-		}
-
-
-
-  </script>
+  <script src = "js_library.js"></script>
 
 
   <body onload = "loadIngredients()" style="background-color: #e6f2ff;">

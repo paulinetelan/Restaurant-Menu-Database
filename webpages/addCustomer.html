@@ -12,62 +12,10 @@
   </head>
 
   <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
-    
-
-  <script>
-
-    var WS_url = "webservice.php/";
-
-    // add customer to database
-    function addCustomer()
-    {
-
-     // Get the fields needed
-    var fname = $("#fname").val();
-    var lname = $("#lname").val();
-    var uname = $("#username").val();
-    var pw = $("#password").val();
-    var email = $("#email").val();
-
-    // check for valid inputs
-    if( fname == ""|| fname == null,  lname == "" || lname == null,  uname == ""|| uname == null,  pw == ""|| pw == null,  email == "" || email == null)
-    {
-
-    alert("One or more of the required fields is invalid!");
-    return;
-    
-    }
-    
-    // Function
-    var func = function(response) // callback
-    {
-
-    if(!response.success)
-    alert(response.message);
-
-    else
-    {
-   
-    // notify user was added
-    alert(response.message);
-
-    // send back to login screen
-    window.location.href = "login.html";
-    }
-
-    };
-
-    // REQUEST TO WEBSERVICE
-    $.get(WS_url, {method: "addCustomer", fname: fname, lname: lname, uname: uname, pw: pw, email: email}, func);
-
-    }
-
-    
-
-  </script>
+  <script src="js_library.js"></script>
 
 
-  <body style="background-color: #e6f2ff;">
+  <body style="background-color: #e6f2ff;" onload = "loadBranchlist_addCustomer()">
     <header class = "container">
       <h1>Good Earth Menu</h1>
     </header>
@@ -76,13 +24,18 @@
       <h3> Registration</h3> <br>
 
       <!-- registration form -->
+      <!-- TODO: ADD BRANCH -->
       First name: <input type = "text" id = "fname"><br> <br>
       Last name: <input type = "text" id = "lname"><br> <br>
       Username: <input type = "text" id = "username"><br> <br>
       Password: <input type = "password" id = "password"><br> <br>
       Email: <input type = "text" id = "email"><br><br>
+      Pick a Branch (preferrably the one closest to you): 
+      <select id = "branchlist">
+	<!-- Populated by loadBranchlist_addCustomer() method -->
+      </select> <br><br>
 
-      <!-- TODO: submit account to database on click -->
+      <!-- submit account to database on click -->
       <input type = "submit" value = "Register!" onclick = "addCustomer()"> 
 
     </div>
