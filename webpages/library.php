@@ -60,8 +60,6 @@
 		// SQL statement
 		$sql = "SELECT DISTINCT restaurant_name FROM Store";
 
-		// execute sql statement
-		global $link;
 		
 		// get rows
 		if($result = $link->query($sql))
@@ -84,18 +82,60 @@
 
 
 	// adds customer to database and returns true if successful
-	function addCustomer($fname, $lname, $uname, $pw, $email, $branch_name)
+	function addCustomer($uname, $pw, $fname, $lname, $email, $branch_name)
+	{
+		global $link;
+		
+		
+		// check if username exists in db
+		$sqlcheck = $link->prepare("SELECT * FROM Customer WHERE Customer.uname = ?");
+		$sqlcheck->bind_param("s", $uname);
+		$sqlcheck->execute();
+		$sqlcheck->store_result();
+
+		// if username exists
+		if($sqlcheck->num_rows != 0){
+			   return false;
+		}
+		else
+		{
+			// create sql statement
+			$sql = $link->prepare("INSERT INTO Customer(uname, pw, fname, lname, email, branch_name) VALUES (?, ?, ?, ?, ?, ?)");
+			$sql->bind_param("ssssss", $uname, $pw, $fname, $lname, $email, $branch_name);
+
+			// execute sql statement
+			$sql->execute();
+
+			return true;
+		}
+	}
+
+	// check customer login
+	function customerLogin($uname, $pw)
 	{
 		global $link;
 
 		// create sql statement
-		$sql = $link->prepare("INSERT INTO Customer(uname, pw, fname, lname, email, branch_name) VALUES (?, ?, ?, ?, ?, ?)");
-		$sql->bind_param('ssssss', $uname, $pw, $fname, $lname, $email, $branch_name);
+		$sql = $link->prepare("SELECT pw FROM Customer(uname, _, _, _, _, _) WHERE uname = ?");
+		$sql->bind_param('s', $uname);
 
-		// execute sql statement
-		$sql->execute();
+		// check
+		if($result = $link->query($sql))
+		{
+			// get tuple
+			$obj = $result->fetch_object();
+			
+			// compare $pw with pw from db
+			if($obj->pw == $pw){
+				    return true;
+			}
+			
+		
+		}
 
-		return true;
+		return false;
+		
+		
 	}
 
 ?>
