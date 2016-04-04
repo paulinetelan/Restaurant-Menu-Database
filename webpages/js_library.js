@@ -115,6 +115,7 @@ function loadBranchlist_addCustomer()
 ////// FUNCTIONS FOR  HOMEADMIN.html //////
 
 // NOT FINISHED
+// creates list of links of branches based on logged in admin
 function initializeListofBranches(){
 
     // Create list of branch link
