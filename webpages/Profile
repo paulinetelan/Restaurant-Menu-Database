@@ -12,7 +12,7 @@
 <br>
 <h3>My Favourites</h3>
 //display favourites in a list
-<a href = "">&nbsp &nbsp Edit Items</a> //currently leads nowhere
+<a href = "">&nbsp &nbsp <button type="button">Edit Items</button></a> //currently leads nowhere
 <br>
 <br>
 <a href = "DietaryRestrictions.html">&nbsp &nbsp <button type="button">Begin Search</button></a>
