@@ -27,6 +27,10 @@ This php document returns data in JSON format
 	else if($method == "customerLogin"){
 	     json_customerLogin($_GET["uname"], $_GET["pw"]);
 	}
+
+	else if($method == "loadCustomerMenu"){
+	     json_loadCustomerMenu();
+	}
 	
 
 	/////// WEBSERVICE METHODS ///////////
@@ -95,13 +99,33 @@ This php document returns data in JSON format
 				
 				$message = "Customer log in failed!";
 			}
+			else{
+				// start session 
+				session_start();
+				$_SESSION['username'] = $uname;
+			}
 		 }
 
 		 
 		 $output = array();
 		 $output["success"] = $valid;
 		 $output["message"] = $message;
+		 $output["sid"] = htmlspecialchars(session_id());
 		 echo json_encode($output);
+	}
+
+	// fetches menu based on user from session id
+	function json_loadCustomerMenu()
+	{
+		// resume started session
+		session_start();
+		// get username
+		$uname = $_SESSION['username'];
+
+		// get data from database
+		$output = loadCustomerMenu($uname);
+		
+		echo json_encode($output);
 	}
 
 

@@ -150,7 +150,7 @@ function login(){
 	$.get(WS_url, {method: "customerLogin", uname: uname, pw: pw}, function(response){
 	    if(response.success){
 		// send back to customer's homepage
-		window.location.href = "homeCustomer.html";
+		window.location.href = "dietarychoices.html?"+response.sid;
 	    }
 	    else{
 		// notify user wrong cred
@@ -159,7 +159,55 @@ function login(){
 	});
 	
     }
-   ///
+  
+}
+
+//////////// DIETARYCHOICES.html ////////////
+
+// loads menu
+// TODO: finish all other fields (dessert, etc.) and add restrictions 
+function loadMenu(){
+    
+    sid = getSid(document.location.href);
+    
+    if(sid != null){
+	$.get(WS_url, {method: "loadCustomerMenu"}, function(response){
+
+	    // get through all the tuples
+	    for(var i = 0 ; i < response.length; i++)
+	    {
+		item = response[i];
+
+ 		if(item.type.localeCompare("Breakfast") == 0
+		   || item.type.localeCompare("breakfast") == 0){
+		    $('#breakfast tr:last').after('<tr><td>'+item.name+'</td><td>'+item.calories+'</td></tr>');
+		}
+	    }
+	});
+    }else{
+	alert("CALM DA FUQ DOWN");
+    }
+    
+}
+
+
+////////// MISC /////////////
+
+// gets session id from url
+function getSid(url){
+
+    var sid = "";
+    var start = false;
+    for(var i = 0; i < url.length; i++){
+	if(start){
+	    sid += url.charAt(i);
+	}
+	if(url.charAt(i) == '?'){
+	    start = true;
+	}
+    }
+
+    return sid;
 }
 
 

@@ -123,12 +123,42 @@
 
 		// check
 		if($sql->num_rows == 1)
-		{
+		{	
 			return true;
 		}
 
 		return false;
 		
+		
+	}
+
+	function loadCustomerMenu($uname)
+	{
+		global $link;
+
+		// create sql statement
+		$sql = $link->prepare("SELECT * FROM Menu_item");
+		//$sql->bind_param('s', $uname);
+		$sql->execute();
+		$sql->store_result();
+		$sql->bind_result($item_name, $meal_type, $total_calories);
+
+		// init return array
+		$output = array();
+
+		// get data
+		while($sql->fetch())
+		{
+			// each tuple is [item_name, meal_type, total_calories]
+			$obj = array();
+			$obj['name'] = $item_name;
+			$obj['type'] = $meal_type;
+			$obj['calories'] = $total_calories;
+			
+			$output[] = $obj;
+		}
+
+		return $output;
 		
 	}
 
