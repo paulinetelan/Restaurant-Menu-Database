@@ -12,7 +12,9 @@
 <br>
 <h3>My Favourites</h3>
 //display favourites in a list
-<b>Edit</b> //add/remove/edit items
-Begin Search! //button leading to DietaryRestrictions
+<a href = "">&nbsp &nbsp Edit Items</a> //currently leads nowhere
+<br>
+<br>
+<a href = "DietaryRestrictions.html">&nbsp &nbsp <button type="button">Begin Search</button></a>
 </body>
 </html>
