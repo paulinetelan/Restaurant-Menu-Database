@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html>
+  <style>
+    table, th, td{border: 1px solid black;}
+  </style>
 <head>
 <title>471 Project (Dietary Restrictions)</title>
 </head>
-
+<!unsure if I can put a table inside a form or if its vice versa>
 <body style="background-color: #e6f2ff;">
 <center><h1>Dietary Restrictions</h1>
 <h3>Check off any dietary restrictions you may have:</h3>
@@ -29,21 +32,49 @@
 <br>
 <form action="">
   <!bfast items>
+  <table style="width:100%">
+  <tr>
+    <td>Name</td>
+    <td>Calories</td>
+    <td>Restrictions</td>
+  </tr>
+</table>
 </form>
 <b>Lunch</b>
 <br>
 <form action="">
   <!lunch items>
+  <table style="width:100%">
+  <tr>
+    <td>Name</td>
+    <td>Calories</td>
+    <td>Restrictions</td>
+  </tr>
+</table>
 </form>
 <b>Pastries and Desserts</b>
 <br>
 <form action="">
   <!pastries || desserts>
+  <table style="width:100%">
+  <tr>
+    <td>Name</td>
+    <td>Calories</td>
+    <td>Restrictions</td>
+  </tr>
+</table>
 </form>
 <b>Beverages</b>
 <br>
 <form action="">
   <!beverages>
+  <table style="width:100%">
+  <tr>
+    <td>Name</td>
+    <td>Calories</td>
+    <td>Restrictions</td>
+  </tr>
+</table>
 </form>
 <button type="button">Save Favourites</button> <!adds checked items to Profile favourites>
 <!If profile session==null, go to registration page w/ message "you must sign up to save favourites">
