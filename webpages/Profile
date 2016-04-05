@@ -1,15 +1,18 @@
 <html>
 <head>
 <title>Customer Profile</title>
+<h1>My Profile</h1>
 </head>
 <body style="background-color: #e6f2ff;">
 //get user
-
+<h3>My Info</h3>
+<b>Name: </b> //fname, lname
 //get favourites
-
-//display favourites
-
-//add/remove/edit items
-
+<br>
+<br>
+<h3>My Favourites</h3>
+//display favourites in a list
+<b>Edit</b> //add/remove/edit items
+Begin Search! //button leading to DietaryRestrictions
 </body>
 </html>
