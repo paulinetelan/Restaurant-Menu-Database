@@ -21,7 +21,7 @@
 <td>Calories</td>
 </tr>
 </table>
-<a href = "">&nbsp &nbsp <button type="button">Edit Items</button></a> <!currently leads nowhere>
+<a href = "EditFavs.html">&nbsp &nbsp <button type="button">Edit Items</button></a>
 <br>
 <br>
 <a href = "DietaryRestrictions.html">&nbsp &nbsp <button type="button">Begin Search</button></a>
