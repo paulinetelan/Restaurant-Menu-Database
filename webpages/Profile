@@ -1,18 +1,19 @@
+<!DOCTYPE html>
 <html>
 <head>
 <title>Customer Profile</title>
 <h1>My Profile</h1>
 </head>
 <body style="background-color: #e6f2ff;">
-//get user
+<!get user>
 <h3>My Info</h3>
 <b>Name: </b> //fname, lname
-//get favourites
+<!get favourites>
 <br>
 <br>
 <h3>My Favourites</h3>
-//display favourites in a list
-<a href = "">&nbsp &nbsp <button type="button">Edit Items</button></a> //currently leads nowhere
+<!display favourites in a list>
+<a href = "">&nbsp &nbsp <button type="button">Edit Items</button></a> <!currently leads nowhere>
 <br>
 <br>
 <a href = "DietaryRestrictions.html">&nbsp &nbsp <button type="button">Begin Search</button></a>
