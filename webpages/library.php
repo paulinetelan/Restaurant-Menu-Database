@@ -132,6 +132,7 @@
 		
 	}
 
+	// returns food item tuples
 	function loadCustomerMenu($uname)
 	{
 		global $link;
@@ -160,6 +161,25 @@
 
 		return $output;
 		
+	}
+
+	// returns first name of customer from uname
+	function getFname($uname)
+	{
+		global $link;
+
+		// create sql statement
+		$sql = $link->prepare("SELECT Customer.fname FROM Customer Where Customer.uname = ?");
+		$sql->bind_param('s', $uname);		    
+		$sql->execute();
+		$sql->store_result();
+		$sql->bind_result($fname);
+
+		if($sql->fetch()){
+			return $fname;
+		}else{
+			
+		}
 	}
 
 ?>

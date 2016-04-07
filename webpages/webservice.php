@@ -31,6 +31,10 @@ This php document returns data in JSON format
 	else if($method == "loadCustomerMenu"){
 	     json_loadCustomerMenu();
 	}
+
+	else if($method == "killsession"){
+	     json_killsession();
+	}
 	
 
 	/////// WEBSERVICE METHODS ///////////
@@ -123,12 +127,30 @@ This php document returns data in JSON format
 		$uname = $_SESSION['username'];
 
 		// get data from database
-		$output = loadCustomerMenu($uname);
+		$output["menu"] = loadCustomerMenu($uname);
+		$output["fname"] = getFname($uname);
 		
 		echo json_encode($output);
 	}
 
+	//Note: some code taken from http://php.net/manual/en/function.session-destroy.php
+	function json_killsession(){
+		 session_start();
+		 
+		 // unset all session var
+		 $_SESSION = array();
 
+		 // destroy cookies
+		 if (ini_get("session.use_cookies")) {
+    		    $params = session_get_cookie_params();
+    		    setcookie(session_name(), '', time() - 42000,
+        	    $params["path"], $params["domain"],
+        	    $params["secure"], $params["httponly"]
+    		    );
+		    }
 
+		session_destroy();  
+	
+	}
 
 ?>

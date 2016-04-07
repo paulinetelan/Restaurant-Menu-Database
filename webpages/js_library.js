@@ -150,7 +150,7 @@ function login(){
 	$.get(WS_url, {method: "customerLogin", uname: uname, pw: pw}, function(response){
 	    if(response.success){
 		// send back to customer's homepage
-		window.location.href = "dietarychoices.html?"+response.sid;
+		window.location.href = "homeCustomer.html?"+response.sid;
 	    }
 	    else{
 		// notify user wrong cred
@@ -162,22 +162,30 @@ function login(){
   
 }
 
-//////////// DIETARYCHOICES.html ////////////
+//////////// HOMECUSTOMER.html ////////////
 
 // loads menu
 // TODO: finish all other fields (dessert, etc.) and add restrictions 
-function loadMenu(){
+
+function loadCustomer(){
     
     sid = getSid(document.location.href);
     
     if(sid != null){
 	$.get(WS_url, {method: "loadCustomerMenu"}, function(response){
+	    
+	    // display first name of user
+	    $('#fname').text(response.fname);
+
+	    menu = response.menu;
 
 	    // get through all the tuples
-	    for(var i = 0 ; i < response.length; i++)
+	    for(var i = 0 ; i < response.menu.length; ++i)
 	    {
-		item = response[i];
+	
+		item = menu[i];
 
+		// if meal type = breakfast
  		if(item.type.localeCompare("Breakfast") == 0
 		   || item.type.localeCompare("breakfast") == 0){
 		    $('#breakfast tr:last').after('<tr><td>'+item.name+'</td><td>'+item.calories+'</td></tr>');
@@ -208,6 +216,11 @@ function getSid(url){
     }
 
     return sid;
+}
+
+function killsession(){
+    $.get(WS_url, {method: killsession});
+    
 }
 
 
