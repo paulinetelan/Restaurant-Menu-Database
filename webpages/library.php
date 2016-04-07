@@ -17,6 +17,10 @@
 		echo $mysqli->connect_error();
 	}
 
+	// enable strict type checking
+	// e.g. inserting string to int column will trigger error
+	$link->query('set @@GLOBAL.sql_mode  = "STRICT_ALL_TABLES"');
+
 	//////////// FUNCTIONS ///////////////////
 
 	
@@ -161,6 +165,75 @@
 
 		return $output;
 		
+	}
+
+	// returns ingredient tuples
+	function loadIngredients()
+	{
+		global $link;
+
+		// create sql statement
+		$sql = $link->prepare("SELECT * FROM Ingredient");
+		$sql->execute();
+		$sql->store_result();
+		$sql->bind_result($ingredient_name, $calories);
+
+		// init return array
+		$output = array();
+
+		// get data
+		while($sql->fetch())
+		{
+			// each tuple is [item_name, meal_type, total_calories]
+			$obj = array();
+			$obj['name'] = $ingredient_name;
+			$obj['calories'] = $calories;
+			
+			$output[] = $obj;
+		}
+
+		return $output;
+		
+	}
+
+	// adds ingredient to database and returns true if successful
+	function addIngredient($name, $calories)
+	{
+		global $link;
+
+		// create sql statement
+		$sql = $link->prepare("INSERT INTO Ingredient(ingredient_name, calories) VALUES (?, ?)");
+		$sql->bind_param("ss", $name, $calories);
+
+		// execute sql statement
+		// the DBMS will check if the primary key exists and if the calories is an integer
+		return $sql->execute(); // will return whether it succeeded
+	}
+
+	// adds food item to database and returns true if successful
+	function addFoodItem($name, $mealType, $ingredients, $totalCalories)
+	{
+		global $link;
+
+		// create sql statement
+		$sql = $link->prepare("INSERT INTO menu_item(item_name, meal_type, total_calories) VALUES (?,?,?)");
+		$sql->bind_param("sss", $name, $mealType, $totalCalories);
+
+		// execute sql statement
+		// the DBMS will check if the primary key exists and if the calories is an integer
+		if (!$sql->execute()) return false;
+
+		// insert all of the relationships for the ingredients
+		foreach ($ingredients as $i) {
+			$sql = $link->prepare("INSERT INTO contains (item_name, ingredient_name) VALUES (?,?)");
+			$sql->bind_param("ss", $name, $i);
+
+			// execute and check error
+			if (!$sql->execute()) return false;
+		}
+
+		// successful
+		return true;
 	}
 
 	// returns first name of customer from uname

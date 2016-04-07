@@ -32,8 +32,27 @@ This php document returns data in JSON format
 	     json_loadCustomerMenu();
 	}
 
+	else if($method == "loadIngredients"){
+	     json_loadIngredients();
+	}
+
+	else if($method == "addIngredient"){
+	     json_addIngredient($_GET["name"], $_GET["calories"]);
+	}
+
+	else if($method == "addFoodItem"){
+	     json_addFoodItem($_GET["name"], $_GET["mealType"], $_GET["ingredients"], $_GET["totalCalories"]);
+	}
+
 	else if($method == "killsession"){
 	     json_killsession();
+	}
+
+	else{
+		 $output = array();
+		 $output["success"] = false;
+		 $output["message"] = "Invalid method";
+		 echo json_encode($output);
 	}
 	
 
@@ -127,10 +146,61 @@ This php document returns data in JSON format
 		$uname = $_SESSION['username'];
 
 		// get data from database
+		$output = array();
 		$output["menu"] = loadCustomerMenu($uname);
 		$output["fname"] = getFname($uname);
 		
 		echo json_encode($output);
+	}
+
+	// fetches ingredients
+	function json_loadIngredients()
+	{
+		// get data from database
+		$output = array();
+		$output["ingredients"] = loadIngredients();
+		
+		echo json_encode($output);
+	}
+
+	function json_addIngredient($name, $calories){
+		 
+		 $valid = true;
+		 $message = "Ingredient added successfully";
+
+		 // Add using library method
+		 if($valid)
+		 {
+			$valid = addIngredient($name, $calories);
+			if(!$valid){
+				$message = "Unable to add ingredient";
+			}
+		 }
+
+		 $output = array();
+		 $output["success"] = $valid;
+		 $output["message"] = $message;
+		 echo json_encode($output);
+	}
+
+	function json_addFoodItem($name, $mealType, $ingredients, $totalCalories){
+		 
+		 $valid = true;
+		 $message = "Food item added successfully";
+
+		 // Add using library method
+		 if($valid)
+		 {
+			$valid = addFoodItem($name, $mealType, $ingredients, $totalCalories);
+			if(!$valid){
+				$message = "Unable to add food item";
+			}
+		 }
+
+		 $output = array();
+		 $output["success"] = $valid;
+		 $output["message"] = $message;
+		 echo json_encode($output);
 	}
 
 	//Note: some code taken from http://php.net/manual/en/function.session-destroy.php

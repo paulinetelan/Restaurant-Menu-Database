@@ -7,34 +7,116 @@ var WS_url = "webservice.php/";
 
 /////// FUNCTIONS FOR ADDITEM.html //////////
 
-// TODO: fetch ingredient names from database and load it with checkbox list 
+// fetch ingredient names from database and load it with checkbox list 
 function loadIngredients(){
-    var br = document.createElement("br");
+    var func = function(response)
+    {
+		var br = $('<br/>');
+		var list = $('#listOfIngredients');
+		list.empty(); // delete everything in the element
 
-    // Create list of ingredients with checkbox
-    for (var i = 0; i < 5; i++){
-	var checkbox = document.createElement("input");
-	var description = document.createTextNode(i);
-	var label = document.createElement("label");
-	checkbox.type = "checkbox";
-	checkbox.name = "name";
-	checkbox.value = i;
+		// Create list of ingredients with checkbox
+		response.ingredients.forEach(function(obj, i){
+			// ID allows clicking the label to toggle the checkbox
+			var text = obj.name + " (" + obj.calories + " calories)";
+			var id = 'ingredient'+i; // i is the index [0, n)
+			var checkbox = $('<input/>', {
+				type:'checkbox',
+				value: obj.name,
+				id:id,
+				// The class will be useful for addFoodItem
+				class:'ingredientCheckbox'
+			});
+			var label = $('<label/>', {text: text, for:id})
 
-	label.appendChild(checkbox);
-	label.appendChild(description);
+			// append the checkbox, label, then br tag
+			list.append(checkbox, label, '<br/>');
+		});
+	};
+    $.get(WS_url, {method: "loadIngredients"}, func);
+}
 
-	document.getElementById("listOfIngredients").appendChild(label);
+function addIngredient()
+{
 
-	    <!-- create new textbox in new line not working? -->
-	    document.getElementById("listOfIngredients").appendChild(br);
-	document.getElementById("listOfIngredients").appendChild(br);
+    // Get the fields needed
+    var name = $("#ingredientName").val();
+    var calories = $("#ingredientCalories").val();
+
+    // check for valid inputs
+    if(name == "" || calories == "")
+    {
+	alert("Invalid input!");
+	return;
     }
 
-    
-    alert("One or more of the required fields is invalid!");
-    return;
+    // Function
+    var func = function(response) // callback
+    {
 
+	if(!response.success)
+	    alert(response.message);
 
+	else
+	{
+	    
+	    // notify user was added
+	    alert(response.message);
+
+	    // refresh ingredients list
+	    loadIngredients();
+	}
+
+    }
+
+    // REQUEST TO WEBSERVICE
+    $.get(WS_url, {method: "addIngredient", name: name, calories: calories}, func);
+}
+
+function addFoodItem()
+{
+
+    // Get the fields needed
+    var name = $("#itemName").val();
+    var mealType = $("#mealType").val();
+	var totalCalories = $("#totalCalories").val();
+	var ingredients = [];
+
+	// Get all HTML elements with class ingredientCheckbox
+	$('.ingredientCheckbox').each(function(i,e){
+		// Check if the box is checked
+		// NOTE: e is DOM element, not JQuery object
+		if (e.checked)
+		{
+			ingredients.push(e.value);
+		}
+	});
+
+    // check for valid inputs
+    if(name == "" || mealType == "" || totalCalories == "")
+    {
+	alert("Invalid input!");
+	return;
+    }
+
+    // Function
+    var func = function(response) // callback
+    {
+
+	if(!response.success)
+	    alert(response.message);
+
+	else
+	{
+	    
+	    // notify user was added
+	    alert(response.message);
+	}
+
+    }
+
+    // REQUEST TO WEBSERVICE
+    $.get(WS_url, {method: "addFoodItem", name: name, mealType: mealType, totalCalories: totalCalories, ingredients: ingredients}, func);
 }
 
 ////// FUNCTIONS FOR  ADDCUSTOMER.html //////

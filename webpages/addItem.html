@@ -16,6 +16,7 @@
     
   </head>
 
+  <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
   <script src = "js_library.js"></script>
 
 
@@ -28,22 +29,20 @@
       <h3> Add Food Item </h3>
 
       <!-- log in form -->
-      <!-- TODO: submit form to database -->
-      <form action = "editMenu.html">
+	  <!-- The return false is to prevent the form from actually submitting -->
+      <form onsubmit="addFoodItem(); return false;">
 
-	Name: <input type = "text" name = "itemName"><br> <br>
+	Name: <input type = "text" id = "itemName"><br> <br>
 
-	Meal type: <input type = "text" name = "mealType"><br> <br>
+	Meal type: <input type = "text" id = "mealType"><br> <br>
 
 	Ingredient/s: 
 	<div class = "well sidebar-nav" id = "listOfIngredients">
 	  <!-- load list of pre added ingredients here as checkbox-->
-	  <!-- TODO: fetch this info from database -->
 	</div>
 
-	Total Calories: <input type = "text" name = "totalCalories"> <br> <br>
+	Total Calories: <input type = "text" id = "totalCalories"> <br> <br>
 
-	<!-- TODO: submit form when this is clicked but check which ingredients are checked first-->
 	<input type = "submit" value = "Add Item"> 
 
       </form>
@@ -55,11 +54,14 @@
     <!-- ingredient form here -->
     <div class = "col-lg-4">
       <h3>Add Ingredient</h3>
-      Name: <input type = "text" name = "ingredientName"> <br><br>
-      Number of Calories: <input type = "text" name = "ingredientCalories"> <br><br>
+	  <!-- The return false is to prevent the form from actually submitting -->
+	  <form onsubmit="addIngredient(); return false;">
+		  Name: <input type = "text" id = "ingredientName"> <br><br>
+		  Number of Calories: <input type = "text" id = "ingredientCalories"> <br><br>
 
-      
-      <input type = "submit" value = "Add Ingredient" onclick = "loadIngredients()">
+		  
+		  <input type = "submit" value = "Add Ingredient">
+	  </form>
       </div>
   </body>
 
