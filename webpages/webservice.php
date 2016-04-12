@@ -28,6 +28,10 @@ This php document returns data in JSON format
 	     json_customerLogin($_GET["uname"], $_GET["pw"]);
 	}
 
+	else if($method == "adminLogin"){
+	     json_adminLogin($_GET["uname"], $_GET["pw"]);
+	}
+
 	else if($method == "loadCustomerMenu"){
 	     json_loadCustomerMenu();
 	}
@@ -136,6 +140,43 @@ This php document returns data in JSON format
 		 $output["sid"] = htmlspecialchars(session_id());
 		 echo json_encode($output);
 	}
+
+	// checks Admin table for login credentials
+	// returns data as true or false depending if uname and pw match
+	function json_adminLogin($uname, $pw)
+	{
+		$valid = true;
+		$message = "Admin logged in successfully";
+		
+		// Check if input values are taken
+		 if(!isset($uname) || !isset($pw)){
+		 		$valid = false;
+				$message = "Invalid input values";
+		 }
+
+		 // check user login credentials
+		 if($valid){
+		 	$valid = adminLogin($uname, $pw);
+			if(!$valid){
+				
+				$message = "Admin log in failed!";
+			}
+			else{
+				// start session 
+				session_start();
+				$_SESSION['username'] = $uname;
+			}
+		 }
+
+		 
+		 $output = array();
+		 $output["success"] = $valid;
+		 $output["message"] = $message;
+		 $output["sid"] = htmlspecialchars(session_id());
+		 echo json_encode($output);
+	}
+
+	
 
 	// fetches menu based on user from session id
 	function json_loadCustomerMenu()

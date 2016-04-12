@@ -136,6 +136,28 @@
 		
 	}
 
+		// returns true iff uname and pw combo matches one in db
+	function adminLogin($uname, $pw)
+	{
+		global $link;
+
+		// create sql statement
+		$sql = $link->prepare("SELECT Admin.pw FROM Admin WHERE Admin.admin_user = ? AND Admin.pw = ?");
+		$sql->bind_param('ss', $uname, $pw);
+		$sql->execute();
+		$sql->store_result();
+
+		// check
+		if($sql->num_rows == 1)
+		{	
+			return true;
+		}
+
+		return false;
+		
+		
+	}
+
 	// returns food item tuples
 	function loadCustomerMenu($uname)
 	{

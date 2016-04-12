@@ -11,28 +11,28 @@ var WS_url = "webservice.php/";
 function loadIngredients(){
     var func = function(response)
     {
-		var br = $('<br/>');
-		var list = $('#listOfIngredients');
-		list.empty(); // delete everything in the element
+	var br = $('<br/>');
+	var list = $('#listOfIngredients');
+	list.empty(); // delete everything in the element
 
-		// Create list of ingredients with checkbox
-		response.ingredients.forEach(function(obj, i){
-			// ID allows clicking the label to toggle the checkbox
-			var text = obj.name + " (" + obj.calories + " calories)";
-			var id = 'ingredient'+i; // i is the index [0, n)
-			var checkbox = $('<input/>', {
-				type:'checkbox',
-				value: obj.name,
-				id:id,
-				// The class will be useful for addFoodItem
-				class:'ingredientCheckbox'
-			});
-			var label = $('<label/>', {text: text, for:id})
+	// Create list of ingredients with checkbox
+	response.ingredients.forEach(function(obj, i){
+	    // ID allows clicking the label to toggle the checkbox
+	    var text = obj.name + " (" + obj.calories + " calories)";
+	    var id = 'ingredient'+i; // i is the index [0, n)
+	    var checkbox = $('<input/>', {
+		type:'checkbox',
+		value: obj.name,
+		id:id,
+		// The class will be useful for addFoodItem
+		class:'ingredientCheckbox'
+	    });
+	    var label = $('<label/>', {text: text, for:id})
 
-			// append the checkbox, label, then br tag
-			list.append(checkbox, label, '<br/>');
-		});
-	};
+	    // append the checkbox, label, then br tag
+	    list.append(checkbox, label, '<br/>');
+	});
+    };
     $.get(WS_url, {method: "loadIngredients"}, func);
 }
 
@@ -79,18 +79,18 @@ function addFoodItem()
     // Get the fields needed
     var name = $("#itemName").val();
     var mealType = $("#mealType").val();
-	var totalCalories = $("#totalCalories").val();
-	var ingredients = [];
+    var totalCalories = $("#totalCalories").val();
+    var ingredients = [];
 
-	// Get all HTML elements with class ingredientCheckbox
-	$('.ingredientCheckbox').each(function(i,e){
-		// Check if the box is checked
-		// NOTE: e is DOM element, not JQuery object
-		if (e.checked)
-		{
-			ingredients.push(e.value);
-		}
-	});
+    // Get all HTML elements with class ingredientCheckbox
+    $('.ingredientCheckbox').each(function(i,e){
+	// Check if the box is checked
+	// NOTE: e is DOM element, not JQuery object
+	if (e.checked)
+	{
+	    ingredients.push(e.value);
+	}
+    });
 
     // check for valid inputs
     if(name == "" || mealType == "" || totalCalories == "")
@@ -217,14 +217,21 @@ function initializeListofBranches(){
 //////// FUNCTIONS FOR LOGIN.html //////////
 function login(){
     
-      // get values
+    // get values
     var uname = $("#username").val();
     var pw = $("#password").val();
     var isAdmin = $("#adminflag").is(":checked");
     
-    // TODO: check admin table
+    // check admin table
     if(isAdmin){
-
+	$.get(WS_url, {method: "adminLogin", uname: uname, pw: pw}, function(response){
+	    if(response.success){
+		window.location.href = "homeAdmin.html?"+response.sid;
+	    }
+	    else{
+		alert(response.message);
+	    }
+	});
     }
     // check customer table
     else{
@@ -241,69 +248,69 @@ function login(){
 	});
 	
     }
-  
+    
 }
 
-//////////// HOMECUSTOMER.html ////////////
+    //////////// HOMECUSTOMER.html ////////////
 
-// loads menu
-// TODO: finish all other fields (dessert, etc.) and add restrictions 
+    // loads menu
+    // TODO: finish all other fields (dessert, etc.) and add restrictions 
 
-function loadCustomer(){
-    
-    sid = getSid(document.location.href);
-    
-    if(sid != null){
-	$.get(WS_url, {method: "loadCustomerMenu"}, function(response){
-	    
-	    // display first name of user
-	    $('#fname').text(response.fname);
-
-	    menu = response.menu;
-
-	    // get through all the tuples
-	    for(var i = 0 ; i < response.menu.length; ++i)
-	    {
+    function loadCustomer(){
 	
-		item = menu[i];
+	sid = getSid(document.location.href);
+	
+	if(sid != null){
+	    $.get(WS_url, {method: "loadCustomerMenu"}, function(response){
+		
+		// display first name of user
+		$('#fname').text(response.fname);
 
-		// if meal type = breakfast
- 		if(item.type.localeCompare("Breakfast") == 0
-		   || item.type.localeCompare("breakfast") == 0){
-		    $('#breakfast tr:last').after('<tr><td>'+item.name+'</td><td>'+item.calories+'</td></tr>');
+		menu = response.menu;
+
+		// get through all the tuples
+		for(var i = 0 ; i < response.menu.length; ++i)
+		{
+		    
+		    item = menu[i];
+
+		    // if meal type = breakfast
+ 		    if(item.type.localeCompare("Breakfast") == 0
+		       || item.type.localeCompare("breakfast") == 0){
+			$('#breakfast tr:last').after('<tr><td>'+item.name+'</td><td>'+item.calories+'</td></tr>');
+		    }
 		}
+	    });
+	}else{
+	    alert("CALM DA FUQ DOWN");
+	}
+	
+    }
+
+
+    ////////// MISC /////////////
+
+    // gets session id from url
+    function getSid(url){
+
+	var sid = "";
+	var start = false;
+	for(var i = 0; i < url.length; i++){
+	    if(start){
+		sid += url.charAt(i);
 	    }
-	});
-    }else{
-	alert("CALM DA FUQ DOWN");
-    }
-    
-}
-
-
-////////// MISC /////////////
-
-// gets session id from url
-function getSid(url){
-
-    var sid = "";
-    var start = false;
-    for(var i = 0; i < url.length; i++){
-	if(start){
-	    sid += url.charAt(i);
+	    if(url.charAt(i) == '?'){
+		start = true;
+	    }
 	}
-	if(url.charAt(i) == '?'){
-	    start = true;
-	}
+
+	return sid;
     }
 
-    return sid;
-}
-
-function killsession(){
-    $.get(WS_url, {method: killsession});
-    
-}
+    function killsession(){
+	$.get(WS_url, {method: killsession});
+	
+    }
 
 
 
