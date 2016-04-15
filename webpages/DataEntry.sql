@@ -39,7 +39,7 @@ INSERT INTO `dietary_restriction` (`dr_name`) VALUES
 ('Lactose Intolerance'),
 ('Gluten Intolerance'),
 ('Vegan'),
-('Vegetarian'),
+('Vegetarianism),
 ('Low-Calorie'),
 ('Nut Allergy'),
 ('Ovo Vegetarianism');
