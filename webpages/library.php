@@ -184,7 +184,14 @@
 		$restrictionlist = array();
 		while($rest->fetch())
 		{
-			$restrictionlist[$item] = $restriction;
+			if(!array_key_exists($item, $restrictionlist)){
+				$restrictionlist[$item] = array();
+				$restrictionlist[$item][] = $restriction;
+			}
+			else{
+				$restrictionlist[$item][] = $restriction;
+			}
+			
 		}
  		
 
@@ -197,10 +204,11 @@
 			$obj['name'] = $item_name;
 			$obj['type'] = $meal_type;
 			$obj['calories'] = $total_calories;
-			$obj['restrictions'] = null;
+			$obj['restrictions'] = array();
 			
-			if(array_key_exists($item_name, $restrictionlist))
+			if(array_key_exists($item_name, $restrictionlist)){	
 				$obj['restrictions'] = $restrictionlist[$item_name];
+			}
 			$output[] = $obj;
 		}
 
