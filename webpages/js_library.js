@@ -255,7 +255,6 @@ function login(){
 
     // loads menu
     // TODO: finish all other fields (dessert, etc.) and add restrictions 
-
     function loadCustomer(){
 	
 	sid = getSid(document.location.href);
@@ -273,16 +272,30 @@ function login(){
 		{
 		    
 		    item = menu[i];
-
+		    
+		    if(item.restrictions == null)
+			item.restrictions = "";
 		    // if meal type = breakfast
  		    if(item.type.localeCompare("Breakfast") == 0
 		       || item.type.localeCompare("breakfast") == 0){
-			$('#breakfast tr:last').after('<tr><td>'+item.name+'</td><td>'+item.calories+'</td></tr>');
+			$('#breakfast tr:last').after('<tr><td>'+item.name+'</td><td>'+item.calories+'</td><td>'+item.restrictions+'</td></tr>');
+		    }
+		    else if(item.type.localeCompare("Lunch") == 0
+			    || item.type.localeCompare("lunch") == 0){
+			$('#lunch tr:last').after('<tr><td>'+item.name+'</td><td>'+item.calories+'</td><td>'+item.restrictions+'</td></tr>');
+		    }
+		    else if(item.type.localeCompare("Dessert") == 0
+			    || item.type.localeCompare("dessert") == 0){
+			$('#dessert tr:last').after('<tr><td>'+item.name+'</td><td>'+item.calories+'</td><td>'+item.restrictions+'</td></tr>');
+		    }
+		    else if(item.type.localeCompare("Beverage") == 0
+			    || item.type.localeCompare("beverage") == 0){
+			$('#beverage tr:last').after('<tr><td>'+item.name+'</td><td>'+item.calories+'</td><td>'+item.restrictions+'</td></tr>');
 		    }
 		}
 	    });
 	}else{
-	    alert("CALM DA FUQ DOWN");
+	    alert("HANDLE ERROR");
 	}
 	
     }

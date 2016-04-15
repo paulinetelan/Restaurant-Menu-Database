@@ -163,8 +163,15 @@
 	{
 		global $link;
 
-		// create sql statement
-		$sql = $link->prepare("SELECT * FROM Menu_item");
+		// query for restrictions
+		// PROBLEM: only returning one instance
+		$rest = $link->prepare("SELECT m.item_name, r.dr_name FROM Menu_item m, Contains c, Ingredient_Rest r WHERE m.item_name = c.item_name AND c.ingredient_name = r.ingredient_name");
+		$rest->execute();
+		$rest->store_result();
+		$rest->bind_result($item, $restriction);
+
+		// query for all items
+		$sql = $link->prepare("SELECT m.item_name, m.meal_type, m.total_calories FROM Menu_item m");
 		//$sql->bind_param('s', $uname);
 		$sql->execute();
 		$sql->store_result();
@@ -173,15 +180,27 @@
 		// init return array
 		$output = array();
 
+	
+		$restrictionlist = array();
+		while($rest->fetch())
+		{
+			$restrictionlist[$item] = $restriction;
+		}
+ 		
+
 		// get data
 		while($sql->fetch())
 		{
-			// each tuple is [item_name, meal_type, total_calories]
+		
 			$obj = array();
+			// each tuple is [item_name, meal_type, total_calories, restriction]
 			$obj['name'] = $item_name;
 			$obj['type'] = $meal_type;
 			$obj['calories'] = $total_calories;
+			$obj['restrictions'] = null;
 			
+			if(array_key_exists($item_name, $restrictionlist))
+				$obj['restrictions'] = $restrictionlist[$item_name];
 			$output[] = $obj;
 		}
 
