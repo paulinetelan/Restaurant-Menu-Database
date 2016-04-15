@@ -43,7 +43,7 @@ CREATE TABLE `Contains` (
   `ingredient_name` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-INSERT INTO `Contains` ('item_name', 'ingredient_name') VALUES
+INSERT INTO `Contains` (`item_name`, `ingredient_name`) VALUES
 ('V Berry Bran Muffin', 'Wheat'),
 ('V Berry Bran Muffin', 'Oats'),
 ('V Berry Bran Muffin', 'Egg'),
