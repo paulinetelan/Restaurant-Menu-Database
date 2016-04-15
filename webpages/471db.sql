@@ -76,6 +76,10 @@ CREATE TABLE `Dietary_Restriction` (
   `dr_name` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `Dietary_Restriction`
+--
+
 INSERT INTO `Dietary_Restriction` (`dr_name`) VALUES
 ('Celiac''s Disease'),
 ('Lactose Intolerance'),
@@ -123,14 +127,14 @@ CREATE TABLE `Ingredient_Rest` (
 INSERT INTO `Ingredient_Rest` (`ingredient_name`, `dr_name`) VALUES
 ('Wheat', 'Gluten Intolerance'),
 ('Oats', 'Gluten Intolerance'),
-('Wheat', 'Celiac''s disease'),
-('Oats', 'Celiac''s disease'),
-('Barley', 'Celiac''s disease'),
+('Wheat', 'Celiac''s Disease'),
+('Oats', 'Celiac''s Disease'),
+('Barley', 'Celiac''s Disease'),
 ('Barley', 'Gluten Intolerance'),
 ('Egg', 'Ovo Vegetarianism'),
 ('Tree Nuts', 'Nut Allergy'),
 ('Milk', 'Lactose Intolerance'),
-('Soy', 'Celiac''s disease'),
+('Soy', 'Celiac''s Disease'),
 ('Peanuts', 'Nut Allergy'),
 ('Meat', 'Vegetarianism'),
 ('Milk', 'Vegan'),
