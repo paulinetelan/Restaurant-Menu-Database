@@ -288,15 +288,93 @@ function saveFavourites(){
 	    alert(response.message);
 	}
     });
+
+    
+     // refresh page
+    location.reload();
 }
-	 
+
+
+// calls functions for customer's homepage	 
+function loadCustomer(){
+    getFavourites();
+    loadMenu();
+}
+
+// loads customer's favourites
+function getFavourites(){
+
+    $.get(WS_url, {method: "getFavourites"}, function(response){
+	if(response.success){
+	    
+	    for(var i = 0; i < response.data.length; i++){
+
+		// get each item
+		item = response.data[i];
+		
+		if(item.restrictions == null){
+		    item.restrictions = "";
+		}
+
+		// insert into table in html
+		$('#favourites_table tr:last').after('<tr><td>'+item.name+'</td><td>'+item.calories+'</td><td>'+item.restrictions+'</td></tr>');
+	    }
+
+	   
+
+	}else{
+	    alert(response.message);
+	}
+    });
+
+}
 
 
 
 // loads default menu
+// takes in array of restrictions
 function loadMenu(){
     
-    $.get(WS_url, {method: "loadCustomerMenu"}, function(response){
+    // check if there are restrictions selected
+    lactose = $("#Lactose").is(":checked");
+    gluten = $("#Gluten").is(":checked");
+    cel = $("#Celiacs").is(":checked");
+    veget = $("#Vegetarian").is(":checked");
+    vegan = $("#Vegan").is(":checked");
+    lowcal = $("#LowCal").is(":checked");
+    lowfat = $("#LowFat").is(":checked");
+    
+    // add checked restrictions into array
+    restrictions = new Array();
+    if(lactose)
+	restrictions.push("Lactose Intolerance");
+    if(gluten)
+	restrictions.push("Gluten Intolerance");
+    if(cel)
+	restrictions.push("Celiac's Disease");
+    if(veget)
+	restrictions.push("Vegetarianism");
+    if(vegan)
+	restrictions.push(" Vegan");
+    if(lowcal)
+	restrictions.push("Low Calorie Diet");
+    if(lowfat)
+	restrictions.push("Low Fat Diet");
+    
+    // set restrictions variable to -1 if none of checkboxes are checked
+    if(restrictions.length == 0){
+	restrictions = -1;
+    }
+    // reset tables if restriction has at least one checkbox checked
+    else{
+	$("#breakfast_body").empty();
+	$("#lunch_body").empty();
+	$("#dessert_body").empty();
+	$("#beverage_body").empty();
+    }
+
+    // get all items from db
+    $.get(WS_url, {method: "loadCustomerMenu", res: restrictions}, function(response){
 	
 	// display first name of user
 	$('#fname').text(response.fname);
@@ -309,55 +387,63 @@ function loadMenu(){
 	    
 	    item = menu[i];
 	    
+	    // clear restrictions if there is none
 	    if(item.restrictions == null)
 		item.restrictions = "";
+	    // skip 
+	    else if($.inArray("-1", item.restrictions) != -1){
+		continue;
+	    }
+
 	    // if meal type = breakfast
  	    if(item.type.localeCompare("Breakfast") == 0
 	       || item.type.localeCompare("breakfast") == 0){
-		$('#breakfast tr:last').after('<tr><td>'+item.name+'</td><td>'+item.calories+'</td><td>'+item.restrictions+'</td><td align="center"><input type="checkbox" id="'+item.name+'"></td></tr>');
+		$('#breakfast tbody:last').after('<tr><td>'+item.name+'</td><td>'+item.calories+'</td><td>'+item.restrictions+'</td><td align="center"><input type="checkbox" id="'+item.name+'"></td></tr>');
 	    }
 	    else if(item.type.localeCompare("Lunch") == 0
 		    || item.type.localeCompare("lunch") == 0){
-		$('#lunch tr:last').after('<tr><td>'+item.name+'</td><td>'+item.calories+'</td><td>'+item.restrictions+'</td><td align="center"><input type="checkbox" id="'+item.name+'"></td></tr>');
+		$('#lunch tbody:last').after('<tr><td>'+item.name+'</td><td>'+item.calories+'</td><td>'+item.restrictions+'</td><td align="center"><input type="checkbox" id="'+item.name+'"></td></tr>');
 	    }
 	    else if(item.type.localeCompare("Dessert") == 0
 		    || item.type.localeCompare("dessert") == 0){
-		$('#dessert tr:last').after('<tr><td>'+item.name+'</td><td>'+item.calories+'</td><td>'+item.restrictions+'</td><td align="center"><input type="checkbox" id="'+item.name+'"></td></tr>');
+		$('#dessert tbody:last').after('<tr><td>'+item.name+'</td><td>'+item.calories+'</td><td>'+item.restrictions+'</td><td align="center"><input type="checkbox" id="'+item.name+'"></td></tr>');
 	    }
 	    else if(item.type.localeCompare("Beverages") == 0
 		    || item.type.localeCompare("beverages") == 0){
-		$('#beverage tr:last').after('<tr><td>'+item.name+'</td><td>'+item.calories+'</td><td>'+item.restrictions+'</td><td align="center"><input type="checkbox" id="'+item.name+'"></td></tr>');
+		$('#beverage tbody:last').after('<tr><td>'+item.name+'</td><td>'+item.calories+'</td><td>'+item.restrictions+'</td><td align="center"><input type="checkbox" id="'+item.name+'"></td></tr>');
 	    }
 	}
+	
+
     });
-    
-    
+
+   
 }
 
 
-    ////////// MISC /////////////
+////////// MISC /////////////
 
-    // gets session id from url
-    function getSid(url){
+// gets session id from url
+function getSid(url){
 
-	var sid = "";
-	var start = false;
-	for(var i = 0; i < url.length; i++){
-	    if(start){
-		sid += url.charAt(i);
-	    }
-	    if(url.charAt(i) == '?'){
-		start = true;
-	    }
+    var sid = "";
+    var start = false;
+    for(var i = 0; i < url.length; i++){
+	if(start){
+	    sid += url.charAt(i);
 	}
-
-	return sid;
+	if(url.charAt(i) == '?'){
+	    start = true;
+	}
     }
 
-    function killsession(){
-	$.get(WS_url, {method: killsession});
-	
-    }
+    return sid;
+}
+
+function killsession(){
+    $.get(WS_url, {method: "killsession"});
+    
+}
 
 
 

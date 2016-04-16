@@ -159,7 +159,7 @@
 	}
 
 	// returns food item tuples
-	function loadCustomerMenu($uname)
+	function loadCustomerMenu($uname, $user_restrictions)
 	{
 		global $link;
 
@@ -180,36 +180,51 @@
 		$output = array();
 
 	
+		// get restrictions for each item
 		$restrictionlist = array();
 		while($rest->fetch())
 		{
-			if(!array_key_exists($item, $restrictionlist)){
+			if($user_restrictions != -1 && in_array($restriction, $user_restrictions)){
+				$restrictionlist[$item] = array();
+				$restrictionlist[$item][] = "-1";
+			}
+
+			// make sure restriction is not in user specified restrictions
+			else{
+				if(!array_key_exists($item, $restrictionlist)){
 				$restrictionlist[$item] = array();
 				$restrictionlist[$item][] = $restriction;
-			}
-			else{
-				if(!in_array($restriction, $restrictionlist[$item]))
-					$restrictionlist[$item][] = $restriction;
-			}
+				}
+				else{
+				// make sure no duplicates
+				if(!in_array("-1", $restrictionlist[$item]) && !in_array($restriction, $restrictionlist[$item])){
+				$restrictionlist[$item][] = $restriction;
+				}
+				}
+						
 			
+			}
 		}
  		
 
 		// get data
 		while($sql->fetch())
 		{
-		
-			$obj = array();
-			// each tuple is [item_name, meal_type, total_calories, restriction]
-			$obj['name'] = $item_name;
-			$obj['type'] = $meal_type;
-			$obj['calories'] = $total_calories;
-			$obj['restrictions'] = array();
+			// skip item if it has restriction
+			if(!in_array($item_name, $restrictionlist) || !in_array(-1, $restrictionlist[$item_name]))
+			{
+				$obj = array();
+				// each tuple is [item_name, meal_type, total_calories, restriction]
+				$obj['name'] = $item_name;
+				$obj['type'] = $meal_type;
+				$obj['calories'] = $total_calories;
+				$obj['restrictions'] = array();
 			
-			if(array_key_exists($item_name, $restrictionlist)){	
-				$obj['restrictions'] = $restrictionlist[$item_name];
+				if(array_key_exists($item_name, $restrictionlist)){	
+					$obj['restrictions'] = $restrictionlist[$item_name];
+				}
+				$output[] = $obj;
 			}
-			$output[] = $obj;
 		}
 
 		return $output;
@@ -243,6 +258,70 @@
 
 		return $output;
 		
+	}
+
+	// gets customer favourites
+	function getFavourites($uname){
+		 
+		 global $link;
+		
+		// get favourites
+		 $sql = $link->prepare("SELECT f.item_name, m.total_calories FROM Favourite f, Menu_item m WHERE f.item_name = m.item_name AND f.cust_user = ?");
+		 $sql->bind_param("s", $uname);
+		 $success = $sql->execute();
+		 $sql->store_result();
+		 $sql->bind_result($item_name, $total_calories);
+		 
+		 if($success)
+		 {
+			// get restrictions of favourites
+		 	$rest = $link->prepare("SELECT f.item_name, r.dr_name FROM Favourite f, Contains c, Ingredient_Rest r WHERE f.item_name = c.item_name AND c.ingredient_name = r.ingredient_name  AND f.cust_user = ?");
+		 	$rest->bind_param("s", $uname);
+		 	$success = $rest->execute();
+			$rest->store_result();
+		 	$rest->bind_result($item, $restriction);
+
+			// store restrictions in list 
+			$restrictionlist = array();
+			while($rest->fetch())
+			{
+				if(!array_key_exists($item, $restrictionlist)){
+				  	$restrictionlist[$item] = array();
+					$restrictionlist[$item][] = $restriction;
+				}
+				else{
+					// check if restriction already exists to avoid duplicates
+					if(!in_array($restriction, $restrictionlist[$item]))
+						$restrictionlist[$item][] = $restriction;
+				}
+			
+			}
+
+			// init output 
+			$output = array();
+
+			// get data
+			while($sql->fetch())
+			{
+		
+				$obj = array();
+				// each tuple is [item_name, meal_type, total_calories, restriction]
+				$obj['name'] = $item_name;
+				$obj['calories'] = $total_calories;
+				$obj['restrictions'] = array();
+			
+				// check if restrictions exist for item
+				if(array_key_exists($item_name, $restrictionlist)){	
+					$obj['restrictions'] = $restrictionlist[$item_name];
+				}
+				
+				// add obj to array
+				$output[] = $obj;
+			}
+
+				
+		}
+		return $output;
 	}
 	
 	// adds customer favourites and returns true if successful

@@ -33,7 +33,7 @@ This php document returns data in JSON format
 	}
 
 	else if($method == "loadCustomerMenu"){
-	     json_loadCustomerMenu();
+	     json_loadCustomerMenu($_GET["res"]);
 	}
 
 	else if($method == "loadIngredients"){
@@ -56,6 +56,10 @@ This php document returns data in JSON format
 	     json_saveFavourites($_GET["favourites"]);
 	}
 
+	else if($method == "getFavourites"){
+	     json_getFavourites();
+	}
+
 	else{
 		 $output = array();
 		 $output["success"] = false;
@@ -65,6 +69,23 @@ This php document returns data in JSON format
 	
 
 	/////// WEBSERVICE METHODS ///////////
+
+	// gets customer favourites
+	function json_getFavourites(){
+
+		  // resume session
+		 session_start();
+		 
+		 // retrieve username
+		 $uname = $_SESSION['username'];
+
+		 $output["data"] = getFavourites($uname);
+		 $output["message"] = "Favourites successfully fetched";
+		 $output["success"] = true;
+		 echo json_encode($output);
+	}
+
+	// takes an array of favourites and saves favourites under customer name
 	function json_saveFavourites($faves){
 		 
 		 // resume session
@@ -200,7 +221,7 @@ This php document returns data in JSON format
 	
 
 	// fetches menu based on user from session id
-	function json_loadCustomerMenu()
+	function json_loadCustomerMenu($restrictions)
 	{
 		// resume started session
 		session_start();
@@ -209,7 +230,7 @@ This php document returns data in JSON format
 
 		// get data from database
 		$output = array();
-		$output["menu"] = loadCustomerMenu($uname);
+		$output["menu"] = loadCustomerMenu($uname, $restrictions);
 		$output["fname"] = getFname($uname);
 		
 		echo json_encode($output);
