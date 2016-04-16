@@ -164,8 +164,7 @@
 		global $link;
 
 		// query for restrictions
-		// PROBLEM: only returning one instance
-		$rest = $link->prepare("SELECT m.item_name, r.dr_name FROM Menu_item m, Contains c, Ingredient_Rest r WHERE m.item_name = c.item_name AND c.ingredient_name = r.ingredient_name");
+		$rest = $link->prepare("SELECT m.item_name,  r.dr_name FROM Menu_item m, Contains c, Ingredient_Rest r WHERE m.item_name = c.item_name AND c.ingredient_name = r.ingredient_name");
 		$rest->execute();
 		$rest->store_result();
 		$rest->bind_result($item, $restriction);
@@ -189,7 +188,8 @@
 				$restrictionlist[$item][] = $restriction;
 			}
 			else{
-				$restrictionlist[$item][] = $restriction;
+				if(!in_array($restriction, $restrictionlist[$item]))
+					$restrictionlist[$item][] = $restriction;
 			}
 			
 		}
@@ -244,6 +244,30 @@
 		return $output;
 		
 	}
+	
+	// adds customer favourites and returns true if successful
+	// takes customer username and array of favourites
+	function saveFavourites($uname, $favourites){
+		 
+		 global $link;
+
+		 // insert one record in Favourites for each item
+		 for($i = 0; $i < sizeof($favourites); $i++)
+		 {
+			// create sql statement
+		 	$sql = $link->prepare("INSERT INTO Favourite(cust_user, item_name) VALUES(?, ?) ");
+		 	$sql->bind_param("ss", $uname, $favourites[$i]);
+			$success = $sql->execute();
+			if(!$success)
+			{
+				return $success;
+			}
+		 }
+		 
+		 return $success;
+
+	}
+
 
 	// adds ingredient to database and returns true if successful
 	function addIngredient($name, $calories)

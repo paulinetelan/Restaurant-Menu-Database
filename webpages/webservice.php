@@ -52,6 +52,10 @@ This php document returns data in JSON format
 	     json_killsession();
 	}
 
+	else if($method == "saveFavourites"){
+	     json_saveFavourites($_GET["favourites"]);
+	}
+
 	else{
 		 $output = array();
 		 $output["success"] = false;
@@ -61,6 +65,23 @@ This php document returns data in JSON format
 	
 
 	/////// WEBSERVICE METHODS ///////////
+	function json_saveFavourites($faves){
+		 
+		 // resume session
+		 session_start();
+		 
+		 // retrieve username
+		 $uname = $_SESSION['username'];
+
+		 $output = array();
+		 $output["success"] = saveFavourites($uname, $faves);
+		 $output["message"] = "Favourites save unsuccessful!";
+		 if($output["success"])
+			$output["message"] = "Favourites saved successfully";
+		echo json_encode($output);
+		 
+	}
+
 
 	function json_getCustomers(){
 		 $output = array();
