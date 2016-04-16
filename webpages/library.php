@@ -211,7 +211,7 @@
 		while($sql->fetch())
 		{
 			// skip item if it has restriction
-			if(!in_array($item_name, $restrictionlist) || !in_array(-1, $restrictionlist[$item_name]))
+			if(!array_key_exists($item_name, $restrictionlist) || !in_array(-1, $restrictionlist[$item_name]))
 			{
 				$obj = array();
 				// each tuple is [item_name, meal_type, total_calories, restriction]

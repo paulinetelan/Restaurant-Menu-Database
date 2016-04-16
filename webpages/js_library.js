@@ -355,7 +355,7 @@ function loadMenu(){
     if(veget)
 	restrictions.push("Vegetarianism");
     if(vegan)
-	restrictions.push(" Vegan");
+	restrictions.push("Vegan");
     if(lowcal)
 	restrictions.push("Low Calorie Diet");
     if(lowfat)
@@ -398,19 +398,19 @@ function loadMenu(){
 	    // if meal type = breakfast
  	    if(item.type.localeCompare("Breakfast") == 0
 	       || item.type.localeCompare("breakfast") == 0){
-		$('#breakfast tbody:last').after('<tr><td>'+item.name+'</td><td>'+item.calories+'</td><td>'+item.restrictions+'</td><td align="center"><input type="checkbox" id="'+item.name+'"></td></tr>');
+		$('#breakfast tbody:last').append('<tr><td>'+item.name+'</td><td>'+item.calories+'</td><td>'+item.restrictions+'</td><td align="center"><input type="checkbox" id="'+item.name+'"></td></tr>');
 	    }
 	    else if(item.type.localeCompare("Lunch") == 0
 		    || item.type.localeCompare("lunch") == 0){
-		$('#lunch tbody:last').after('<tr><td>'+item.name+'</td><td>'+item.calories+'</td><td>'+item.restrictions+'</td><td align="center"><input type="checkbox" id="'+item.name+'"></td></tr>');
+		$('#lunch tbody:last').append('<tr><td>'+item.name+'</td><td>'+item.calories+'</td><td>'+item.restrictions+'</td><td align="center"><input type="checkbox" id="'+item.name+'"></td></tr>');
 	    }
 	    else if(item.type.localeCompare("Dessert") == 0
 		    || item.type.localeCompare("dessert") == 0){
-		$('#dessert tbody:last').after('<tr><td>'+item.name+'</td><td>'+item.calories+'</td><td>'+item.restrictions+'</td><td align="center"><input type="checkbox" id="'+item.name+'"></td></tr>');
+		$('#dessert tbody:last').append('<tr><td>'+item.name+'</td><td>'+item.calories+'</td><td>'+item.restrictions+'</td><td align="center"><input type="checkbox" id="'+item.name+'"></td></tr>');
 	    }
 	    else if(item.type.localeCompare("Beverages") == 0
 		    || item.type.localeCompare("beverages") == 0){
-		$('#beverage tbody:last').after('<tr><td>'+item.name+'</td><td>'+item.calories+'</td><td>'+item.restrictions+'</td><td align="center"><input type="checkbox" id="'+item.name+'"></td></tr>');
+		$('#beverage tbody:last').append('<tr><td>'+item.name+'</td><td>'+item.calories+'</td><td>'+item.restrictions+'</td><td align="center"><input type="checkbox" id="'+item.name+'"></td></tr>');
 	    }
 	}
 	
