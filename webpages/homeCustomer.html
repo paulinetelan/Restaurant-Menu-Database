@@ -16,7 +16,7 @@
 
     <!-- user info -->
     <div class = "row">
-      Hello, <div id = "fname"><!-- insert first name of logged in user here --></div> <br>
+      Hello, <div style="display: inline-block" id = "fname"><!-- insert first name of logged in user here --></div> <br>
       <!-- log out link -->
       <a href = "login.html" onclick = "killsession()">Log out</a>
     </div>
@@ -53,7 +53,9 @@
 	<!-- populated by getFavourites() -->
       </table>
     </div>
-
+<br>
+    <button type="button" onclick="saveFavourites()">Save Favourites</button> <!--adds checked items to Profile favourites-->
+    <!--If profile session==null, go to registration page w/ message "you must sign up to save favourites" -->
 
     <br>
     <br>

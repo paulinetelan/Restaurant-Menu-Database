@@ -317,7 +317,7 @@ function getFavourites(){
 		}
 
 		// insert into table in html
-		$('#favourites_table tr:last').after('<tr><td>'+item.name+'</td><td>'+item.calories+'</td><td>'+item.restrictions+'</td></tr>');
+		$('#favourites_table tr:last').after('<tr><td>'+item.name+'</td><td>'+item.calories+'</td><td>'+item.restrictions+'</td><td align="center"><input type="checkbox" id="'+item.name+'"></td></tr>');
 	    }
 
 	   
