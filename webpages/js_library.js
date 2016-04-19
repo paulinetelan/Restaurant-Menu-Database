@@ -7,6 +7,28 @@ var WS_url = "webservice.php/";
 
 /////// FUNCTIONS FOR ADDITEM.php //////////
 
+function loadAddItem(){
+    loadIngredients();
+    loadAdminBranchlist();
+}
+
+// populate dropdown with admin's branches
+function loadAdminBranchlist(){
+    $.get(WS_url, {method: "getAdminBranchlist"}, function(response){
+	if(response.success){
+	    
+	    for(var i = 0; i < response.data.length; i++){
+		
+		var descript = $('<option/>', {id: response.data[i].id, text: response.data[i].bname+" (ID: "+response.data[i].id+")", value : response.data[i].bname});
+		descript.appendTo("#branchlist")
+	    }
+
+	}else{
+	    alert("Branch list cannot be loaded.");
+	}
+    });
+}
+
 // fetch ingredient names from database and load it with checkbox list 
 function loadIngredients(){
     var func = function(response)
@@ -42,6 +64,7 @@ function addIngredient()
     // Get the fields needed
     var name = $("#ingredientName").val();
     var calories = $("#ingredientCalories").val();
+    var restrictions = $("#restrictions").val().split(",");
 
     // check for valid inputs
     if(name == "" || calories == "")
@@ -70,7 +93,7 @@ function addIngredient()
     }
 
     // REQUEST TO WEBSERVICE
-    $.get(WS_url, {method: "addIngredient", name: name, calories: calories}, func);
+    $.get(WS_url, {method: "addIngredient", name: name, calories: calories, restrictions: restrictions}, func);
 }
 
 function addFoodItem()
@@ -81,6 +104,9 @@ function addFoodItem()
     var mealType = $("#mealType").val();
     var totalCalories = $("#totalCalories").val();
     var ingredients = [];
+    var branch = $("#branchlist").children(":selected").attr("id");
+
+
 
     // Get all HTML elements with class ingredientCheckbox
     $('.ingredientCheckbox').each(function(i,e){
@@ -116,7 +142,7 @@ function addFoodItem()
     }
 
     // REQUEST TO WEBSERVICE
-    $.get(WS_url, {method: "addFoodItem", name: name, mealType: mealType, totalCalories: totalCalories, ingredients: ingredients}, func);
+    $.get(WS_url, {method: "addFoodItem", name: name, mealType: mealType, totalCalories: totalCalories, ingredients: ingredients, branch: branch}, func);
 }
 
 ////// FUNCTIONS FOR  ADDCUSTOMER.php //////
@@ -183,7 +209,7 @@ function loadBranchlist_addCustomer()
 	    
 	    for(var i = 0; i < list.length; i++){
 		var descript = $('<option/>', {text: list[i], value : list[i]});
-		descript.appendTo("#branchlist")
+		descript.appendTo("#branchlist");
 	    }
 	}
 

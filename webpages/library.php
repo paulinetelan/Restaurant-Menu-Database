@@ -344,7 +344,7 @@
 
 
 	// adds ingredient to database and returns true if successful
-	function addIngredient($name, $calories)
+	function addIngredient($name, $calories, $restrictions)
 	{
 		global $link;
 
@@ -354,32 +354,66 @@
 
 		// execute sql statement
 		// the DBMS will check if the primary key exists and if the calories is an integer
-		return $sql->execute(); // will return whether it succeeded
+		if(!$sql->execute()) return false; // will return whether it succeeded
+		echo("got here");
+
+		// insert restrictions
+		foreach($restrictions as $r){
+			$sql = $link->prepare("INSERT INTO Ingredient_rest(ingredient_name, dr_name) VALUES (?, ?)");
+			$sql->bind_param("ss", $name, $r);
+
+			// execute sql statement
+			// the DBMS will check if the primary key exists and if the calories is an integer
+			if(!$sql->execute()) return false; // will return whether it succeeded
+
+		}
+
+		return true;
+		
 	}
 
 	// adds food item to database and returns true if successful
-	function addFoodItem($name, $mealType, $ingredients, $totalCalories)
+	function addFoodItem($name, $mealType, $ingredients, $totalCalories, $branch)
 	{
 		global $link;
 
-		// create sql statement
-		$sql = $link->prepare("INSERT INTO menu_item(item_name, meal_type, total_calories) VALUES (?,?,?)");
+		// add item into menu_item
+		$sql = $link->prepare("INSERT INTO Menu_item(item_name, meal_type, total_calories) VALUES (?,?,?)");
 		$sql->bind_param("sss", $name, $mealType, $totalCalories);
 
 		// execute sql statement
 		// the DBMS will check if the primary key exists and if the calories is an integer
-		if (!$sql->execute()) return false;
-
+		if (!$sql->execute()){
+		   addItemToBranch($branch, $name);
+		}
 		// insert all of the relationships for the ingredients
 		foreach ($ingredients as $i) {
-			$sql = $link->prepare("INSERT INTO contains (item_name, ingredient_name) VALUES (?,?)");
+			$sql = $link->prepare("INSERT INTO Contains (item_name, ingredient_name) VALUES (?,?)");
 			$sql->bind_param("ss", $name, $i);
 
 			// execute and check error
-			if (!$sql->execute()) return false;
+			if (!$sql->execute()){
+			    addItemToBranch($branch, $name);
+			}
 		}
 
+		
+
+
 		// successful
+		return true;
+	}
+
+	// adds item to branch
+	function addItemToBranch($branch, $name)
+	{
+		global $link;
+
+		// add into Serves to associate with branch id
+		$sql1 = $link->prepare("INSERT INTO Serves(restaurant_id, item_name) VALUES (?,?)");
+		$sql1->bind_param("ss", $branch, $name);
+		if (!$sql1->execute()) return false;
+
 		return true;
 	}
 
@@ -450,9 +484,9 @@
 			if(array_key_exists($ingredient, $restrictiondic)){
 				$restrictiondic[$ingredient][] = $r;				 
 			}else{
-				$rest = array();
-				$rest[] = $r;
-				$restrictiondic[$ingredient] = $rest;
+				$restr = array();
+				$restr[] = $r;
+				$restrictiondic[$ingredient] = $restr;
 			}
 		 }
 
@@ -464,9 +498,14 @@
 					 	
 			// get item rest
 			foreach($ing as $ingname){
-			if(array_key_exists($ingname, $restrictiondic)){
-			$output[$item]["restrictions"][] = $restrictiondic[$ingname];
-			}
+				 if(array_key_exists($ingname, $restrictiondic)){
+				 foreach($restrictiondic[$ingname] as $rest){
+				 	// if restriction already in restrictions array
+				 	if(!in_array($rest, $output[$item]["restrictions"])){
+						$output[$item]["restrictions"][] = $rest;
+					}
+				 }
+				 }
 			}
 		 }			  
 

@@ -44,11 +44,11 @@ This php document returns data in JSON format
 	}
 
 	else if($method == "addIngredient"){
-	     json_addIngredient($_GET["name"], $_GET["calories"]);
+	     json_addIngredient($_GET["name"], $_GET["calories"], $_GET["restrictions"]);
 	}
 
 	else if($method == "addFoodItem"){
-	     json_addFoodItem($_GET["name"], $_GET["mealType"], $_GET["ingredients"], $_GET["totalCalories"]);
+	     json_addFoodItem($_GET["name"], $_GET["mealType"], $_GET["ingredients"], $_GET["totalCalories"], $_GET["branch"]);
 	}
 
 	else if($method == "killsession"){
@@ -269,7 +269,7 @@ This php document returns data in JSON format
 		echo json_encode($output);
 	}
 
-	function json_addIngredient($name, $calories){
+	function json_addIngredient($name, $calories, $restrictions){
 		 
 		 $valid = false;
 		 $message = "Not authorized";
@@ -277,7 +277,7 @@ This php document returns data in JSON format
 		 // Check that logged in user is admin
 		 if (isset($_SESSION['admin']))
 		 {
-			$valid = addIngredient($name, $calories);
+			$valid = addIngredient($name, $calories, $restrictions);
 			$message = "Ingredient added successfully";
 			if(!$valid){
 				$message = "Unable to add ingredient";
@@ -290,7 +290,7 @@ This php document returns data in JSON format
 		 echo json_encode($output);
 	}
 
-	function json_addFoodItem($name, $mealType, $ingredients, $totalCalories){
+	function json_addFoodItem($name, $mealType, $ingredients, $totalCalories, $branch){
 		 
 		 $valid = false;
 		 $message = "Not authorized";
@@ -298,7 +298,7 @@ This php document returns data in JSON format
 		 // Check that logged in user is admin
 		 if (isset($_SESSION['admin']))
 		 {
-			$valid = addFoodItem($name, $mealType, $ingredients, $totalCalories);
+			$valid = addFoodItem($name, $mealType, $ingredients, $totalCalories, $branch);
 			$message = "Food item added successfully";
 			if(!$valid){
 				$message = "Unable to add food item";

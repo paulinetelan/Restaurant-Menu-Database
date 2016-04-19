@@ -7,7 +7,7 @@
 <script>
 // Execute this function when page is ready
 // See http://api.jquery.com/ready/
-$(loadIngredients);
+$(loadAddItem);
 </script>
 
 <div class="container">
@@ -28,6 +28,9 @@ $(loadIngredients);
       </div>
 
       Total Calories: <input type = "text" id = "totalCalories"> <br> <br>
+      Branch: <select id = "branchlist" class="form-control">
+          <!-- Populated by  method -->
+        </select> <br><br>
 
       <input type = "submit" value = "Add Item" class="btn btn-primary"> 
 
@@ -42,7 +45,8 @@ $(loadIngredients);
       <form onsubmit="addIngredient(); return false;">
       Name: <input type = "text" id = "ingredientName"> <br><br>
       Number of Calories: <input type = "text" id = "ingredientCalories"> <br><br>
-
+      Restrictions (separated with a comma): <input type = "text" id = "restrictions"> <br><br>
+      
 
       <input type = "submit" value = "Add Ingredient" class="btn btn-primary">
       </form>
