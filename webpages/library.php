@@ -29,17 +29,20 @@
 		 global $link;
 
 		// SQL statement
-		$sql = $link->prepare("SELECT DISTINCT restaurant_name FROM Store WHERE admin_user=?");
+		$sql = $link->prepare("SELECT restaurant_id, restaurant_name FROM Store WHERE admin_user=?");
 		$sql->bind_param("s", $uname);
 		$sql->execute();
 		$sql->store_result();
-		$sql->bind_result($bname);
+		$sql->bind_result($bid, $bname);
 		
 		// init array of branchnames
 		$output = array();
 		
 		while($sql->fetch()){
-			$output[] = $bname;
+			$obj = array();
+			$obj['id'] = $bid;
+			$obj['bname'] = $bname;
+			$output[] = $obj;
 		}
 
 		return $output;
@@ -407,6 +410,67 @@
 			return false;
 		$sql->store_result();
 		return true;
+	}
+
+	function getBranchMenu($bid){
+		 
+		 global $link;
+		 
+		 // array of items [ [item: [ [ing], [rest] ]] ]
+		 $output = array();
+
+		 // get item ingredients first
+		 $ingr = $link->prepare("SELECT s.item_name, c.ingredient_name FROM Serves s, Contains c WHERE s.restaurant_id = ? AND s.item_name = c.item_name");
+		 $ingr->bind_param("s", $bid);
+		 $ingr->execute();
+		 $ingr->store_result();
+		 $ingr->bind_result($name, $ing);
+
+		 // [item: [ing]]
+		 $item_ingredient = array();
+		 while($ingr->fetch()){
+			if(array_key_exists($name, $item_ingredient)){
+				$item_ingredient[$name][] = $ing;		   
+			}else{
+				$ing_arr = array();
+				$ing_arr[] = $ing;
+				$item_ingredient[$name] = $ing_arr;
+			}
+		 }
+
+		 // get ingredient restrictions
+		 $restriction = $link->prepare("SELECT r.ingredient_name, r.dr_name FROM Ingredient_Rest r");
+		 $restriction->execute();
+		 $restriction->store_result();
+		 $restriction->bind_result($ingredient, $r);
+
+		 // [ing: [rest]]
+		 $restrictiondic = array();
+		 while($restriction->fetch()){
+			if(array_key_exists($ingredient, $restrictiondic)){
+				$restrictiondic[$ingredient][] = $r;				 
+			}else{
+				$rest = array();
+				$rest[] = $r;
+				$restrictiondic[$ingredient] = $rest;
+			}
+		 }
+
+		 foreach($item_ingredient as $item => $ing){
+		 	
+			$output[$item] = array();
+			$output[$item]["ingredients"] = $ing;
+			$output[$item]["restrictions"] = array();
+					 	
+			// get item rest
+			foreach($ing as $ingname){
+			if(array_key_exists($ingname, $restrictiondic)){
+			$output[$item]["restrictions"][] = $restrictiondic[$ingname];
+			}
+			}
+		 }			  
+
+		 return $output;
 	}
 
 ?>

@@ -196,6 +196,43 @@ function loadBranchlist_addCustomer()
 
 ////// FUNCTIONS FOR  HOMEADMIN.php //////
 
+// load branch menu
+// loads default menu
+// takes in array of restrictions
+function loadBranchMenu(branchId){
+    
+    // reset menu
+    var list = $("#menu");
+    list.empty();
+    
+    // get branch items from db
+    $.get(WS_url, {method: "getBranchItems", bid: branchId}, function(response){
+	
+	menu = response.menu;
+
+	// get through all the tuples
+	$.each(menu, function(key, value)
+	{
+	    if(response.success){
+		item = value;
+		
+		// clear restrictions if there is none
+		if(item.restrictions == null)
+		    item.restrictions = "";
+
+		$("#menu").append('<tr><td>'+key+'</td><td>'+item.ingredients+'</td><td>'+item.restrictions+'</td></tr>');
+	    }
+	    else{
+		alert("something derped");
+	    }
+	    
+	});
+    });
+
+   
+}
+
+
 // adds branch to list
 function addBranch(){
     
@@ -226,7 +263,7 @@ function getBranches(){
 	    
 	    for(var i = 0; i < response.data.length; i++){
 		
-		$("#branches").append('<li><a href="">'+response.data[i]+'</a></li>');
+		$("#branches").append('<li id="'+response.data[i].id+'"><a href="#" onclick="loadBranchMenu('+response.data[i].id+')">'+response.data[i].bname+'</a></li>');
 	    }
 
 	}else{
@@ -249,6 +286,9 @@ function loadAdmin(){
     
 
     getBranches();
+
+    // load menu of first branch on list
+    loadBranchMenu($('ul#branches li:first').attr("id"));
     
 }
 

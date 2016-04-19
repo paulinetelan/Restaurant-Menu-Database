@@ -75,6 +75,10 @@ This php document returns data in JSON format
 	     json_addBranch($_GET['bname'], $_GET['bid']);
 	}
 
+	else if($method =="getBranchItems"){
+	     json_getBranchMenu($_GET['bid']);
+	}
+
 	else{
 		 $output = array();
 		 $output["success"] = false;
@@ -372,6 +376,24 @@ This php document returns data in JSON format
 		}
 
 		echo json_encode($output);
+	}
+
+	// get branch menu
+	function json_getBranchMenu($bid){
+		 
+		 global $link;
+
+		 $output = array();
+		 $output['success'] = true;
+
+		 // check if admin 
+		 if( isset($_SESSION['username']) && isset($_SESSION['admin'])){
+		     $output['menu'] = getBranchMenu($bid);
+		 }else{
+			$output['success'] = false;
+		 }
+
+		 echo json_encode($output);
 	}
 
 
