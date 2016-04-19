@@ -196,22 +196,60 @@ function loadBranchlist_addCustomer()
 
 ////// FUNCTIONS FOR  HOMEADMIN.php //////
 
-// NOT FINISHED
+// adds branch to list
+function addBranch(){
+    
+    // get branch name
+    bname = $("#branchName").val();
+    bid = $("#branchId").val();
+
+    // insert to db
+    $.get(WS_url, {method: "addBranch", bname: bname, bid: bid}, function(response){
+	if(!response){
+	    alert("Branch cannot be inserted! Branch ID may already exist.");
+	}
+    });
+
+    // update list of branches
+    var list = $('#branches');
+    list.empty(); // delete everything in the element
+     $("#branchName").val("");
+    $("#branchId").val("");
+    getBranches();
+}
+
 // creates list of links of branches based on logged in admin
-function initializeListofBranches(){
+function getBranches(){
 
-    // Create list of branch link
-    var ulist = document.getElementById("branches");
+    $.get(WS_url, {method: "getAdminBranchlist"}, function(response){
+	if(response.success){
+	    
+	    for(var i = 0; i < response.data.length; i++){
+		
+		$("#branches").append('<li><a href="">'+response.data[i]+'</a></li>');
+	    }
 
-    for(var i = 0; i < 5; i++){
-	var a = document.createElement("a");
-	var newItem = document.createElement("li")
-	a.textContent = i;
-	a.setAttribute('href', "#");
-	newItem.appendChild(a);
-	ulist.appendChild(newItem);
-    }	
+	}else{
+	    alert("Branch list cannot be loaded.");
+	}
+    });
 
+}
+
+function loadAdmin(){
+
+    // get username of admin
+    $.get(WS_url, {method: "getUsername"}, function(response){
+	
+	if(response.success)
+	    $('#fname').text(response.uname);
+	else
+	    alert(response.uname);
+    });
+    
+
+    getBranches();
+    
 }
 
 //////// FUNCTIONS FOR LOGIN.php //////////

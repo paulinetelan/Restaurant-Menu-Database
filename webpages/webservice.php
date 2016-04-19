@@ -63,6 +63,18 @@ This php document returns data in JSON format
 	     json_getFavourites();
 	}
 
+	else if($method == "getUsername"){
+	     json_getUsername();
+	}
+
+	else if($method =="getAdminBranchlist"){
+	     json_getAdminBranchlist();
+	}
+
+	else if($method == "addBranch"){
+	     json_addBranch($_GET['bname'], $_GET['bid']);
+	}
+
 	else{
 		 $output = array();
 		 $output["success"] = false;
@@ -312,5 +324,55 @@ This php document returns data in JSON format
 		session_destroy();  
 	
 	}
+
+	
+	// returns username of logged in user
+	function json_getUsername(){
+		 
+		 $output = array();
+		 
+		 if(isset($_SESSION['username'])){
+			$output['success'] = true;
+			$output['uname'] = $_SESSION['username'];
+		 }else{
+		 	$output['success'] = false;
+			$output['uname'] = "Admin username cannot be fetched.";
+		 }
+		 
+		echo json_encode($output);	
+	}
+
+	// get admin branchlist
+	function json_getAdminBranchlist(){
+		 
+		$output = array();
+		$output['success'] = true;
+
+		 // check if logged in user is admin
+		 if(isset($_SESSION['username']) && isset($_SESSION['admin']))
+		 {
+			$output['data'] = getAdminBranchlist($_SESSION['username']);
+
+		 }else{
+			$output['success'] = false;
+		 }
+		 
+		 echo json_encode($output);
+	}
+
+	// add branch to list
+	function json_addBranch($bname, $bid){
+
+		global $link;
+		
+		if( isset($_SESSION['username']) && isset($_SESSION['admin'])){
+		    	$output = addBranch($_SESSION['username'], $bname, $bid);
+		}else{
+			$output = false;
+		}
+
+		echo json_encode($output);
+	}
+
 
 ?>

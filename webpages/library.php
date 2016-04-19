@@ -23,38 +23,30 @@
 
 	//////////// FUNCTIONS ///////////////////
 
-	
-	function getCustomers()
-	{
-		// Initialize array that will contain all data
-		$array = array();
-		
-		//SQL statement
-		$sql = "SELECT DISTINCT fname, lname FROM Customer";
+	// gets list of branch names owned by admin username
+	function getAdminBranchlist($uname){
+		 
+		 global $link;
 
-		// execute sql statement
-		global $link;
+		// SQL statement
+		$sql = $link->prepare("SELECT DISTINCT restaurant_name FROM Store WHERE admin_user=?");
+		$sql->bind_param("s", $uname);
+		$sql->execute();
+		$sql->store_result();
+		$sql->bind_result($bname);
 		
-		// get rows
-		if($result = $link->query($sql))
-		{
-			// get individual row
-			while($obj = $result->fetch_object()){
-				   $info = array();
-				   $info["fname"] = $obj->fname;
-				   $info["lname"] = $obj->lname;
-				   $array[] = $info;
-			}
-		}		
+		// init array of branchnames
+		$output = array();
 		
-		//clean up
-		$result->close();
-		unset($obj); 
-    		unset($sql); 
-    		unset($query); 
+		while($sql->fetch()){
+			$output[] = $bname;
+		}
 
-		return $array;
+		return $output;
+
 	}
+	
+	
 
 	// get list of branch names from database return true if successful
 	function getBranches()
@@ -402,9 +394,19 @@
 
 		if($sql->fetch()){
 			return $fname;
-		}else{
-			
 		}
+	}
+
+	// adds branch to db, returns true if successful
+	function addBranch($uname, $bname, $bid){
+		 global $link;
+
+		$sql = $link->prepare("INSERT INTO Store(restaurant_id, admin_user, restaurant_name) VALUES(?, ?, ?)");
+		$sql->bind_param("sss", $bid, $uname, $bname);
+		if(!$sql->execute())
+			return false;
+		$sql->store_result();
+		return true;
 	}
 
 ?>

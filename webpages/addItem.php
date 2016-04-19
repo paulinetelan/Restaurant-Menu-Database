@@ -13,6 +13,7 @@ $(loadIngredients);
 <div class="container">
   <div class="row">
     <div class="col-lg-6">
+    <a href="homeAdmin.php">Back to home</a>
       <h3> Add Food Item </h3>
       <!-- The return false is to prevent the form from actually submitting -->
       <form onsubmit="addFoodItem(); return false;">
@@ -35,6 +36,7 @@ $(loadIngredients);
 
     <!-- ingredient form here -->
     <div class = "col-lg-6">
+    <br>
       <h3>Add Ingredient</h3>
       <!-- The return false is to prevent the form from actually submitting -->
       <form onsubmit="addIngredient(); return false;">
