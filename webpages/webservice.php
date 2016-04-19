@@ -7,6 +7,9 @@ This php document returns data in JSON format
 
 	// Include library that returns the data or execute the required methods
 	include("./library.php"); 
+	
+	// Start session
+	session_start();
 
 	// CHECK REQUEST
 	// Check the method requested by site and execute
@@ -72,34 +75,36 @@ This php document returns data in JSON format
 
 	// gets customer favourites
 	function json_getFavourites(){
-
-		  // resume session
-		 session_start();
-		 
 		 // retrieve username
-		 $uname = $_SESSION['username'];
+		 if (isset($_SESSION['username'])) {
+			 $uname = $_SESSION['username'];
 
-		 $output["data"] = getFavourites($uname);
-		 $output["message"] = "Favourites successfully fetched";
-		 $output["success"] = true;
+			 $output["data"] = getFavourites($uname);
+			 $output["message"] = "Favourites successfully fetched";
+			 $output["success"] = true;
+		 } else {
+			 $output["message"] = "Not logged in";
+			 $output["success"] = false;
+		 }
 		 echo json_encode($output);
 	}
 
 	// takes an array of favourites and saves favourites under customer name
 	function json_saveFavourites($faves){
-		 
-		 // resume session
-		 session_start();
-		 
 		 // retrieve username
-		 $uname = $_SESSION['username'];
+		 if (isset($_SESSION['username'])) {
+			 $uname = $_SESSION['username'];
 
-		 $output = array();
-		 $output["success"] = saveFavourites($uname, $faves);
-		 $output["message"] = "Favourites save unsuccessful!";
-		 if($output["success"])
-			$output["message"] = "Favourites saved successfully";
-		echo json_encode($output);
+			 $output = array();
+			 $output["success"] = saveFavourites($uname, $faves);
+			 $output["message"] = "Favourites save unsuccessful!";
+			 if($output["success"])
+				$output["message"] = "Favourites saved successfully";
+			echo json_encode($output);
+		 } else {
+			 $output["message"] = "Not logged in";
+			 $output["success"] = false;
+		 }
 		 
 	}
 
@@ -170,7 +175,6 @@ This php document returns data in JSON format
 			}
 			else{
 				// start session 
-				session_start();
 				$_SESSION['username'] = $uname;
 			}
 		 }
@@ -205,8 +209,8 @@ This php document returns data in JSON format
 			}
 			else{
 				// start session 
-				session_start();
 				$_SESSION['username'] = $uname;
+				$_SESSION['admin'] = true; // set flag in session that we are admin
 			}
 		 }
 
@@ -223,17 +227,20 @@ This php document returns data in JSON format
 	// fetches menu based on user from session id
 	function json_loadCustomerMenu($restrictions)
 	{
-		// resume started session
-		session_start();
 		// get username
-		$uname = $_SESSION['username'];
+		if (isset($_SESSION['username'])) {
+			$uname = $_SESSION['username'];
 
-		// get data from database
-		$output = array();
-		$output["menu"] = loadCustomerMenu($uname, $restrictions);
-		$output["fname"] = getFname($uname);
-		
-		echo json_encode($output);
+			// get data from database
+			$output = array();
+			$output["menu"] = loadCustomerMenu($uname, $restrictions);
+			$output["fname"] = getFname($uname);
+			
+			echo json_encode($output);
+		} else {
+			$output["message"] = "Not logged in";
+			$output["success"] = false;
+		}
 	}
 
 	// fetches ingredients
@@ -248,13 +255,14 @@ This php document returns data in JSON format
 
 	function json_addIngredient($name, $calories){
 		 
-		 $valid = true;
-		 $message = "Ingredient added successfully";
+		 $valid = false;
+		 $message = "Not authorized";
 
-		 // Add using library method
-		 if($valid)
+		 // Check that logged in user is admin
+		 if (isset($_SESSION['admin']))
 		 {
 			$valid = addIngredient($name, $calories);
+			$message = "Ingredient added successfully";
 			if(!$valid){
 				$message = "Unable to add ingredient";
 			}
@@ -268,13 +276,14 @@ This php document returns data in JSON format
 
 	function json_addFoodItem($name, $mealType, $ingredients, $totalCalories){
 		 
-		 $valid = true;
-		 $message = "Food item added successfully";
+		 $valid = false;
+		 $message = "Not authorized";
 
-		 // Add using library method
-		 if($valid)
+		 // Check that logged in user is admin
+		 if (isset($_SESSION['admin']))
 		 {
 			$valid = addFoodItem($name, $mealType, $ingredients, $totalCalories);
+			$message = "Food item added successfully";
 			if(!$valid){
 				$message = "Unable to add food item";
 			}
@@ -288,8 +297,6 @@ This php document returns data in JSON format
 
 	//Note: some code taken from http://php.net/manual/en/function.session-destroy.php
 	function json_killsession(){
-		 session_start();
-		 
 		 // unset all session var
 		 $_SESSION = array();
 
