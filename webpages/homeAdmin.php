@@ -1,25 +1,11 @@
+<?php include('header.php'); ?>
 
+<script>
+// Execute this function when page is ready
+// See http://api.jquery.com/ready/
+$(initializeListofBranches);
+</script>
 
-<!DOCTYPE html>
-<html lang="en">
-
-  <head>
-    <meta charset = "utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <title>Restaurant Menu</title>
-
-    <link href = "bootstrap.css" rel = "stylesheet">
-  </head>
-
-  
-  <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
-  <script src="js_library.js"></script>
-  
-  <body onload = "initializeListofBranches()" style="background-color: #e6f2ff;">
-    <header class = "container">
-      <h1>Good Earth Menu</h1>
       <h3> (Admin Edit mode) </h3>
 
     </header>
@@ -34,7 +20,7 @@
       <!--  add branches -->
       <h4> Add Branch </h4>
       Branch name: <input type = "text" name = "branchName"> <br>
-      <input type = "submit" value = "Add">
+      <input type = "submit" value = "Add" class="btn btn-primary">
     </div>
 
     <div class = "col-lg-6">
@@ -54,10 +40,8 @@
       <br>
       
       <!-- link to add items -->
-      <a href = "addItem.html"> Add item </a>
+      <a href = "addItem.php"> Add item </a>
 
     </div>
 
-  </body>
-
-</html>
+<?php include('footer.php'); ?>

@@ -1,24 +1,16 @@
-<!DOCTYPE html>
-<html>
-  <style>
-    table, th, td{border: 1px solid black;}
-  </style>
-  <head>
-    <title>471 Project (Customer Log-in)</title>
-  </head>
+<?php include('header.php'); ?>
 
-  <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
-  <script src="js_library.js"></script>
-
-
-
-  <body style="background-color: #e6f2ff;" onload = "loadCustomer()">
+<script>
+// Execute this function when page is ready
+// See http://api.jquery.com/ready/
+$(loadCustomer);
+</script>
 
     <!-- user info -->
     <div class = "row">
       Hello, <div style="display: inline-block" id = "fname"><!-- insert first name of logged in user here --></div> <br>
       <!-- log out link -->
-      <a href = "login.html" onclick = "killsession()">Log out</a>
+      <a href = "login.php" onclick = "killsession()">Log out</a>
     </div>
 
 
@@ -137,6 +129,5 @@
     <br>
     <button type="button" onclick="saveFavourites()">Save Favourites</button> <!--adds checked items to Profile favourites-->
     <!--If profile session==null, go to registration page w/ message "you must sign up to save favourites" -->
-    <br>
-  </body>
-</html>
+
+<?php include('footer.php'); ?>

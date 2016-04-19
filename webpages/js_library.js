@@ -5,7 +5,7 @@
 var WS_url = "webservice.php/";
 
 
-/////// FUNCTIONS FOR ADDITEM.html //////////
+/////// FUNCTIONS FOR ADDITEM.php //////////
 
 // fetch ingredient names from database and load it with checkbox list 
 function loadIngredients(){
@@ -119,7 +119,7 @@ function addFoodItem()
     $.get(WS_url, {method: "addFoodItem", name: name, mealType: mealType, totalCalories: totalCalories, ingredients: ingredients}, func);
 }
 
-////// FUNCTIONS FOR  ADDCUSTOMER.html //////
+////// FUNCTIONS FOR  ADDCUSTOMER.php //////
 
 // add customer to database
 function addCustomer()
@@ -154,7 +154,7 @@ function addCustomer()
 	    alert(response.message);
 
 	    // send back to login screen
-	    window.location.href = "login.html";
+	    window.location.href = "login.php";
 	}
 
     }
@@ -194,7 +194,7 @@ function loadBranchlist_addCustomer()
     
 }
 
-////// FUNCTIONS FOR  HOMEADMIN.html //////
+////// FUNCTIONS FOR  HOMEADMIN.php //////
 
 // NOT FINISHED
 // creates list of links of branches based on logged in admin
@@ -214,7 +214,7 @@ function initializeListofBranches(){
 
 }
 
-//////// FUNCTIONS FOR LOGIN.html //////////
+//////// FUNCTIONS FOR LOGIN.php //////////
 function login(){
     
     // get values
@@ -226,7 +226,7 @@ function login(){
     if(isAdmin){
 	$.get(WS_url, {method: "adminLogin", uname: uname, pw: pw}, function(response){
 	    if(response.success){
-		window.location.href = "homeAdmin.html?"+response.sid;
+		window.location.href = "homeAdmin.php?"+response.sid;
 	    }
 	    else{
 		alert(response.message);
@@ -239,7 +239,7 @@ function login(){
 	$.get(WS_url, {method: "customerLogin", uname: uname, pw: pw}, function(response){
 	    if(response.success){
 		// send back to customer's homepage
-		window.location.href = "homeCustomer.html?"+response.sid;
+		window.location.href = "homeCustomer.php?"+response.sid;
 	    }
 	    else{
 		// notify user wrong cred
@@ -251,7 +251,7 @@ function login(){
     
 }
 
-    //////////// HOMECUSTOMER.html ////////////
+    //////////// HOMECUSTOMER.php ////////////
 
 // saves checked items as customer's fave
 function saveFavourites(){
