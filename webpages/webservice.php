@@ -112,16 +112,19 @@ This php document returns data in JSON format
 
 		    $output = array();
 		    $uname = $_SESSION['username'];
+		    $output["success"] = true;
 
-		    if($faves != -1)
-		    {
-			 
-			 $output["success"] = addFavourites($uname, $faves);
-		}
-			 if($delete != -1)
+		    if($delete != -1 )
 			 {
 				$output["success"] = deleteFavourites($uname, $delete);	
 			 }
+
+		    if($faves != -1 && $output["success"])
+		    {
+			 
+			 $output["success"] = addFavourites($uname, $faves);
+			}
+			 
 
 			 $output["message"] = "Favourites save unsuccessful!";
 

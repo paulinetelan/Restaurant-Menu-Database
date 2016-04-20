@@ -409,7 +409,8 @@ function saveFavourites(){
     // delete array
     var list = $("#favourites_table");
     list.empty();
-    getFavourites();
+   
+    location.reload(true);
    
 }
 

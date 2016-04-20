@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost:8889
--- Generation Time: Apr 20, 2016 at 02:37 AM
+-- Generation Time: Apr 20, 2016 at 11:27 PM
 -- Server version: 5.5.42
 -- PHP Version: 7.0.0
 
@@ -26,11 +26,15 @@ SET time_zone = "+00:00";
 -- Table structure for table `Admin`
 --
 
-CREATE TABLE `Admin` (
+CREATE TABLE IF NOT EXISTS `Admin` (
   `admin_user` varchar(20) NOT NULL,
   `pw` varchar(20) NOT NULL,
   `email` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- RELATIONS FOR TABLE `Admin`:
+--
 
 --
 -- Dumping data for table `Admin`
@@ -46,16 +50,27 @@ INSERT INTO `Admin` (`admin_user`, `pw`, `email`) VALUES
 -- Table structure for table `Contains`
 --
 
-CREATE TABLE `Contains` (
+CREATE TABLE IF NOT EXISTS `Contains` (
   `item_name` varchar(20) NOT NULL,
   `ingredient_name` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- RELATIONS FOR TABLE `Contains`:
+--   `ingredient_name`
+--       `Ingredient` -> `ingredient_name`
+--   `item_name`
+--       `Menu_item` -> `item_name`
+--
 
 --
 -- Dumping data for table `Contains`
 --
 
 INSERT INTO `Contains` (`item_name`, `ingredient_name`) VALUES
+('Almond Biscotti', 'Aids'),
+('Almond Biscotti', 'Almond'),
+('Almond Biscotti', 'Barley'),
 ('Almond Biscotti', 'Egg'),
 ('Almond Biscotti', 'Milk'),
 ('Almond Biscotti', 'Tree Nuts'),
@@ -160,7 +175,12 @@ INSERT INTO `Contains` (`item_name`, `ingredient_name`) VALUES
 ('ff', 'test'),
 ('Five Spice Tea Latte', 'Milk'),
 ('Flavoured Steamer', 'Milk'),
+('Food', 'Barley'),
+('Food', 'Egg'),
 ('food', 'food'),
+('Food', 'Milk'),
+('Food', 'Tree Nuts'),
+('Food', 'Wheat'),
 ('Frappe Latte', 'Milk'),
 ('Frappe Latte Caramel', 'Milk'),
 ('Frappe Mocha', 'Milk'),
@@ -190,6 +210,8 @@ INSERT INTO `Contains` (`item_name`, `ingredient_name`) VALUES
 ('Mac & Cheese', 'Egg'),
 ('Mac & Cheese', 'Milk'),
 ('Mac & Cheese', 'Wheat'),
+('mac and cheese', 'Milk'),
+('mac and cheese', 'Wheat'),
 ('Maple Pecan Danish', 'Egg'),
 ('Maple Pecan Danish', 'Milk'),
 ('Maple Pecan Danish', 'Tree Nuts'),
@@ -249,7 +271,14 @@ INSERT INTO `Contains` (`item_name`, `ingredient_name`) VALUES
 ('SW Breakfast Wrap', 'Soy'),
 ('SW Breakfast Wrap', 'Wheat'),
 ('Tea Misto', 'Milk'),
+('test', 'Aids'),
+('test', 'Almond'),
+('test', 'Barley'),
+('test', 'Egg'),
+('test', 'Milk'),
 ('Test', 'test'),
+('test', 'Tree Nuts'),
+('test', 'Wheat'),
 ('Toasted Seed Roll', 'Wheat'),
 ('Turkey/Mint Salad', 'Meat'),
 ('Turkey/Mint Salad', 'Milk'),
@@ -283,7 +312,7 @@ INSERT INTO `Contains` (`item_name`, `ingredient_name`) VALUES
 -- Table structure for table `Customer`
 --
 
-CREATE TABLE `Customer` (
+CREATE TABLE IF NOT EXISTS `Customer` (
   `uname` varchar(20) NOT NULL,
   `pw` varchar(20) NOT NULL,
   `fname` varchar(20) NOT NULL,
@@ -293,11 +322,16 @@ CREATE TABLE `Customer` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
+-- RELATIONS FOR TABLE `Customer`:
+--
+
+--
 -- Dumping data for table `Customer`
 --
 
 INSERT INTO `Customer` (`uname`, `pw`, `fname`, `lname`, `email`, `branch_name`) VALUES
-('test', 'test', 'test', 'test', 'test', 'Country Hills');
+('test', 'test', 'test', 'test', 'test', 'Country Hills'),
+('Wen', 'Wen', 'Wen', 'Wen', 'Wen@wen.wen', 'Country Hills');
 
 -- --------------------------------------------------------
 
@@ -305,9 +339,13 @@ INSERT INTO `Customer` (`uname`, `pw`, `fname`, `lname`, `email`, `branch_name`)
 -- Table structure for table `Dietary_Restriction`
 --
 
-CREATE TABLE `Dietary_Restriction` (
+CREATE TABLE IF NOT EXISTS `Dietary_Restriction` (
   `dr_name` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- RELATIONS FOR TABLE `Dietary_Restriction`:
+--
 
 --
 -- Dumping data for table `Dietary_Restriction`
@@ -331,10 +369,18 @@ INSERT INTO `Dietary_Restriction` (`dr_name`) VALUES
 -- Table structure for table `Favourite`
 --
 
-CREATE TABLE `Favourite` (
+CREATE TABLE IF NOT EXISTS `Favourite` (
   `cust_user` varchar(20) NOT NULL,
   `item_name` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- RELATIONS FOR TABLE `Favourite`:
+--   `cust_user`
+--       `Customer` -> `uname`
+--   `item_name`
+--       `Menu_item` -> `item_name`
+--
 
 --
 -- Dumping data for table `Favourite`
@@ -342,9 +388,9 @@ CREATE TABLE `Favourite` (
 
 INSERT INTO `Favourite` (`cust_user`, `item_name`) VALUES
 ('test', 'Breakfast Panini'),
-('test', 'Ratatouille Salad'),
-('test', 'Tea Misto'),
-('test', 'Vnlla Rooibos Latte');
+('test', 'food'),
+('test', 'Granola Parfait'),
+('wen', 'Chddr/Tomato Soup');
 
 -- --------------------------------------------------------
 
@@ -352,16 +398,22 @@ INSERT INTO `Favourite` (`cust_user`, `item_name`) VALUES
 -- Table structure for table `Ingredient`
 --
 
-CREATE TABLE `Ingredient` (
+CREATE TABLE IF NOT EXISTS `Ingredient` (
   `ingredient_name` varchar(20) NOT NULL,
   `calories` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- RELATIONS FOR TABLE `Ingredient`:
+--
 
 --
 -- Dumping data for table `Ingredient`
 --
 
 INSERT INTO `Ingredient` (`ingredient_name`, `calories`) VALUES
+('Aids', 10000),
+('Almond', 10000),
 ('Barley', 10),
 ('Egg', 50),
 ('Milk', 50),
@@ -374,17 +426,27 @@ INSERT INTO `Ingredient` (`ingredient_name`, `calories`) VALUES
 -- Table structure for table `Ingredient_Rest`
 --
 
-CREATE TABLE `Ingredient_Rest` (
+CREATE TABLE IF NOT EXISTS `Ingredient_Rest` (
   `ingredient_name` varchar(20) NOT NULL,
   `dr_name` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- RELATIONS FOR TABLE `Ingredient_Rest`:
+--   `dr_name`
+--       `Dietary_Restriction` -> `dr_name`
+--   `ingredient_name`
+--       `Ingredient` -> `ingredient_name`
+--
 
 --
 -- Dumping data for table `Ingredient_Rest`
 --
 
 INSERT INTO `Ingredient_Rest` (`ingredient_name`, `dr_name`) VALUES
+('Aids', 'Wtf'),
 ('Alcohol', 'Adult Only'),
+('Almond', 'Nuts'),
 ('Barley', 'Celiac''s Disease'),
 ('Barley', 'Gluten Intolerance'),
 ('Egg', 'Ovo Vegetarianism'),
@@ -409,11 +471,15 @@ INSERT INTO `Ingredient_Rest` (`ingredient_name`, `dr_name`) VALUES
 -- Table structure for table `Menu_item`
 --
 
-CREATE TABLE `Menu_item` (
+CREATE TABLE IF NOT EXISTS `Menu_item` (
   `item_name` varchar(20) NOT NULL,
   `meal_type` varchar(20) NOT NULL,
   `total_calories` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- RELATIONS FOR TABLE `Menu_item`:
+--
 
 --
 -- Dumping data for table `Menu_item`
@@ -483,6 +549,7 @@ INSERT INTO `Menu_item` (`item_name`, `meal_type`, `total_calories`) VALUES
 ('Kale Pesto Flatbread', 'Lunch', 290),
 ('Lentil/Bean Stew', 'Lunch', 350),
 ('Mac & Cheese', 'Lunch', 580),
+('mac and cheese', 'Lunch', 600),
 ('Mango Smoothie', 'Beverages', 290),
 ('Maple Pecan Danish', 'Dessert', 400),
 ('Matcha Frappe', 'Beverages', 260),
@@ -526,10 +593,18 @@ INSERT INTO `Menu_item` (`item_name`, `meal_type`, `total_calories`) VALUES
 -- Table structure for table `Restricted_by`
 --
 
-CREATE TABLE `Restricted_by` (
+CREATE TABLE IF NOT EXISTS `Restricted_by` (
   `cust_user` varchar(20) NOT NULL,
   `dr_name` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- RELATIONS FOR TABLE `Restricted_by`:
+--   `cust_user`
+--       `Customer` -> `uname`
+--   `dr_name`
+--       `Dietary_Restriction` -> `dr_name`
+--
 
 -- --------------------------------------------------------
 
@@ -537,17 +612,28 @@ CREATE TABLE `Restricted_by` (
 -- Table structure for table `Serves`
 --
 
-CREATE TABLE `Serves` (
+CREATE TABLE IF NOT EXISTS `Serves` (
   `restaurant_id` varchar(10) NOT NULL,
   `item_name` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- RELATIONS FOR TABLE `Serves`:
+--   `item_name`
+--       `Menu_item` -> `item_name`
+--   `restaurant_id`
+--       `Store` -> `restaurant_id`
+--
 
 --
 -- Dumping data for table `Serves`
 --
 
 INSERT INTO `Serves` (`restaurant_id`, `item_name`) VALUES
-('456', 'Almond Biscotti');
+('2323424324', 'Almond Biscotti'),
+('456', 'Almond Biscotti'),
+('456', 'Food'),
+('667', 'test');
 
 -- --------------------------------------------------------
 
@@ -555,18 +641,28 @@ INSERT INTO `Serves` (`restaurant_id`, `item_name`) VALUES
 -- Table structure for table `Store`
 --
 
-CREATE TABLE `Store` (
+CREATE TABLE IF NOT EXISTS `Store` (
   `restaurant_id` varchar(10) NOT NULL,
   `admin_user` varchar(20) NOT NULL,
   `restaurant_name` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
+-- RELATIONS FOR TABLE `Store`:
+--   `admin_user`
+--       `Admin` -> `admin_user`
+--   `restaurant_id`
+--       `Store` -> `restaurant_id`
+--
+
+--
 -- Dumping data for table `Store`
 --
 
 INSERT INTO `Store` (`restaurant_id`, `admin_user`, `restaurant_name`) VALUES
-('456', 'test', 'Country Hills');
+('2323424324', 'test', 'Hello'),
+('456', 'test', 'Country Hills'),
+('667', 'test', 'uofc');
 
 --
 -- Indexes for dumped tables

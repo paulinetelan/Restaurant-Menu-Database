@@ -355,6 +355,9 @@
 		 	$sql = $link->prepare("DELETE FROM Favourite WHERE cust_user = ? AND item_name = ? ");
 		 	$sql->bind_param("ss", $uname, $favourites[$i]);
 			$success = $sql->execute();
+			if($sql->affected_rows != 1){
+				return false;
+			}
 			if(!$success)
 			{
 				return $success;
