@@ -8,9 +8,9 @@ $(loadCustomer);
 
     <!-- user info -->
     <div class = "row">
-      Hello, <div style="display: inline-block" id = "fname"><!-- insert first name of logged in user here --></div> <br>
+      <big>Hello, <div style="display: inline-block" id = "fname"><!-- insert first name of logged in user here --></div></big><br>
       <!-- log out link -->
-      <a href = "login.php" onclick = "killsession()">Log out</a>
+      <a href = "login.php" onclick = "killsession()" class="btn btn-primary"><span class="glyphicon glyphicon-off" aria-hidden="true"></span> Log out</a>
     </div>
 
 
@@ -20,15 +20,15 @@ $(loadCustomer);
       <h4>Check off any dietary restrictions you may have:</h4>
       <!-- Reached either from Profile(users) or from main screen(guests) -->
       <form action="">
-	<input type="checkbox" name="restriction" id="Lactose">Lactose Intolerance<br>
-	<input type="checkbox" name="restriction" id="Gluten">Gluten Intolerance<br>
-	<input type="checkbox" name="restriction" id="Celiacs">Celiac's Disease<br>
-	<input type="checkbox" name="restriction" id="Vegetarian">Vegetarian<br>
-	<input type="checkbox" name="restriction" id="Vegan">Vegan<br>
-	<input type="checkbox" name="restriction" id="LowCal">Low Calorie Diet<br>
-	<input type="checkbox" name="restriction" id="LowFat">Low Fat Diet<br>
+	<label><input type="checkbox" name="restriction" id="Lactose"> Lactose Intolerance</label><br>
+	<label><input type="checkbox" name="restriction" id="Gluten"> Gluten Intolerance</label><br>
+	<label><input type="checkbox" name="restriction" id="Celiacs"> Celiac's Disease</label><br>
+	<label><input type="checkbox" name="restriction" id="Vegetarian"> Vegetarian</label><br>
+	<label><input type="checkbox" name="restriction" id="Vegan"> Vegan</label><br>
+	<label><input type="checkbox" name="restriction" id="LowCal"> Low Calorie Diet</label><br>
+	<label><input type="checkbox" name="restriction" id="LowFat"> Low Fat Diet</label><br>
       </form>
-      <button type="button" onclick="loadMenu()">Submit</button>
+      <button type="button" onclick="loadMenu()" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Submit</button>
     </div>
     <br>
 
@@ -41,7 +41,7 @@ $(loadCustomer);
 	  <th> Name </th>
 	  <th> Calories </th>
 	  <th> Restriction/s </th>
-	  <th> Delete </th>
+	  <th> <span class="glyphicon glyphicon-trash" aria-hidden="true"></span></th>
 	</tr>
 	</thead>
 	<tbody id="favourites_table">
@@ -50,7 +50,7 @@ $(loadCustomer);
       </table>
     </div>
 <br>
-    <button type="button" onclick="saveFavourites()">Save Favourites</button> <!--adds checked items to Profile favourites-->
+    <button type="button" onclick="saveFavourites()" class="btn btn-primary"><span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span> Save Favourites</button> <!--adds checked items to Profile favourites-->
     <!--If profile session==null, go to registration page w/ message "you must sign up to save favourites" -->
 
     <br>
@@ -131,7 +131,7 @@ $(loadCustomer);
     </form>
     <br>
     <br>
-    <button type="button" onclick="saveFavourites()">Save Favourites</button> <!--adds checked items to Profile favourites-->
+    <button type="button" onclick="saveFavourites()" class="btn btn-primary"><span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span> Save Favourites</button> <!--adds checked items to Profile favourites-->
     <!--If profile session==null, go to registration page w/ message "you must sign up to save favourites" -->
 
 <?php include('footer.php'); ?>

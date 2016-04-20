@@ -13,9 +13,9 @@ $(loadAdmin);
 
     	<!-- user info -->
     	<div class = "row">
-      	Hello, <div style="display: inline-block" id = "fname"><!-- insert first name of logged in user here --></div> <br>
+      	<big>Hello, <div style="display: inline-block" id = "fname"><!-- insert first name of logged in user here --></div></big> <br>
       	<!-- log out link -->
-      	<a href = "login.php" onclick = "killsession()">Log out</a>
+      <a href = "login.php" onclick = "killsession()" class="btn btn-primary"><span class="glyphicon glyphicon-off" aria-hidden="true"></span> Log out</a>
     	</div>
 
       <h3>Branches </h3>
@@ -27,8 +27,8 @@ $(loadAdmin);
       <!--  add branches -->
       <h4> Add Branch </h4>
       Branch ID: <input type = "text" id = "branchId" > <br><br>
-      Branch Name: <input type = "text" id = "branchName" > <br>
-      <input type = "submit" value = "Add" class="btn btn-primary" onclick="addBranch()">
+      Branch Name: <input type = "text" id = "branchName" > <br><br>
+      <button class="btn btn-success" onclick="addBranch()"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add</button>
     </div>
 
     <div class = "col-lg-6">
@@ -49,7 +49,7 @@ $(loadAdmin);
       <br>
       
       <!-- link to add items -->
-      <a href = "addItem.php"> Add item </a>
+      <a href = "addItem.php" class="btn btn-success"><span class="glyphicon glyphicon-apple" aria-hidden="true"></span> Add item </a>
 
     </div>
 

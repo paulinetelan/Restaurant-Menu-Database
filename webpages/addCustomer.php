@@ -49,7 +49,7 @@ $(loadBranchlist_addCustomer);
     </div>
     <div class="form-group">
       <div class="col-sm-offset-4 col-sm-8">
-        <button type = "submit" class="btn btn-primary">Register!</button>
+        <button type = "submit" class="btn btn-primary"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Register!</button>
       </div>
     </div>
   </form>

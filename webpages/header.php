@@ -21,7 +21,7 @@
       <div class="header clearfix">
         <nav>
           <ul class="nav nav-pills pull-right">
-            <li role="presentation" class="active"><a href="index.php">Home</a></li>
+            <li role="presentation" class="active"><a href="index.php"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> Home</a></li>
             <li role="presentation"><a href="index.php">Other links?</a></li>
             <li role="presentation"><a href="index.php">Mmm...coffee</a></li>
           </ul>

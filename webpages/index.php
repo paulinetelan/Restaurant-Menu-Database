@@ -9,9 +9,9 @@
 <br>
 <br>
 <center><p><b>BEGIN!</b></p><p>
-<a href = "defaultHome.php" class="btn btn-default">Proceed as Guest</a> <!--default guest profile -->
-<a href = "login.php" class="btn btn-default">Login</a>
-<a href = "addCustomer.php" class="btn btn-default">Register</a>
+<a href = "defaultHome.php" class="btn btn-warning"><span class="glyphicon glyphicon-ice-lolly" aria-hidden="true"></span> Proceed as Guest</a> <!--default guest profile -->
+<a href = "login.php" class="btn btn-success"><span class="glyphicon glyphicon-ice-lolly-tasted" aria-hidden="true"></span> Login</a>
+<a href = "addCustomer.php" class="btn btn-primary"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Register</a>
 </p></center>
 
 <?php include('footer.php'); ?>

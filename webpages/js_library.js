@@ -515,7 +515,6 @@ function loadMenu(){
 	    }
 
 	    if(location.href.indexOf("defaultHome.php") != -1){
-		alert("hi");
 		// if meal type = breakfast
  		if(item.type.localeCompare("Breakfast") == 0
 		   || item.type.localeCompare("breakfast") == 0){
@@ -538,19 +537,19 @@ function loadMenu(){
 		// if meal type = breakfast
  		if(item.type.localeCompare("Breakfast") == 0
 		   || item.type.localeCompare("breakfast") == 0){
-		    $('#breakfast tbody:last').append('<tr><td>'+item.name+'</td><td>'+item.calories+'</td><td>'+item.restrictions+'</td><td><input type="checkbox" id="'+item.name+'"></td></tr>');
+		    $('#breakfast tbody:last').append('<tr><td>'+item.name+'</td><td>'+item.calories+'</td><td>'+item.restrictions+'</td><td><label><input type="checkbox" id="'+item.name+'"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span></label></td></tr>');
 		}
 		else if(item.type.localeCompare("Lunch") == 0
 			|| item.type.localeCompare("lunch") == 0){
-		    $('#lunch tbody:last').append('<tr><td>'+item.name+'</td><td>'+item.calories+'</td><td>'+item.restrictions+'</td><td><input type="checkbox" id="'+item.name+'"></td></tr>');
+		    $('#lunch tbody:last').append('<tr><td>'+item.name+'</td><td>'+item.calories+'</td><td>'+item.restrictions+'</td><td><label><input type="checkbox" id="'+item.name+'"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span></label></td></tr>');
 		}
 		else if(item.type.localeCompare("Dessert") == 0
 			|| item.type.localeCompare("dessert") == 0){
-		    $('#dessert tbody:last').append('<tr><td>'+item.name+'</td><td>'+item.calories+'</td><td>'+item.restrictions+'</td><td><input type="checkbox" id="'+item.name+'"></td></tr>');
+		    $('#dessert tbody:last').append('<tr><td>'+item.name+'</td><td>'+item.calories+'</td><td>'+item.restrictions+'</td><td><label><input type="checkbox" id="'+item.name+'"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span></label></td></tr>');
 		}
 		else if(item.type.localeCompare("Beverages") == 0
 			|| item.type.localeCompare("beverages") == 0){
-		    $('#beverage tbody:last').append('<tr><td>'+item.name+'</td><td>'+item.calories+'</td><td>'+item.restrictions+'</td><td><input type="checkbox" id="'+item.name+'"></td></tr>');
+		    $('#beverage tbody:last').append('<tr><td>'+item.name+'</td><td>'+item.calories+'</td><td>'+item.restrictions+'</td><td><label><input type="checkbox" id="'+item.name+'"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span></label></td></tr>');
 		}
 
 	    }
