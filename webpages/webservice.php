@@ -254,20 +254,23 @@ This php document returns data in JSON format
 	// fetches menu based on user from session id
 	function json_loadCustomerMenu($restrictions)
 	{
+		// get data from database
+		$output = array();
+		
 		// get username
 		if (isset($_SESSION['username'])) {
 			$uname = $_SESSION['username'];
 
-			// get data from database
-			$output = array();
-			$output["menu"] = loadCustomerMenu($uname, $restrictions);
+			
+			$output["menu"] = loadCustomerMenu($restrictions);
 			$output["fname"] = getFname($uname);
 			
-			echo json_encode($output);
+		
 		} else {
-			$output["message"] = "Not logged in";
-			$output["success"] = false;
+			$output["menu"] = loadCustomerMenu($restrictions);
 		}
+
+		echo json_encode($output);
 	}
 
 	// fetches ingredients

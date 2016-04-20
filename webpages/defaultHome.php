@@ -23,7 +23,6 @@ $(loadMenu);
 	      <th id = "bf_name">Name</th>
 	      <th id = "bf_calories">Calories</th>
 	      <th id = "bf_rest">Restrictions</th>
-	      <th id = "bf_fav">Favourite</th>
 	    </tr>
 	  </thead>
 	  <tbody id = "breakfast_body">
@@ -43,7 +42,6 @@ $(loadMenu);
 	      <th id = "lunch_name">Name</th>
 	      <th id = "lunch_calories">Calories</th>
 	      <th id = "lunch_rest">Restrictions</th>
-	      <th id = "lunch_fav">Favourite</th>
 	    </tr>
 	  </thead>
 	  <tbody id = "lunch_body">
@@ -64,7 +62,6 @@ $(loadMenu);
 	      <th id = "dess_name">Name</th>
 	      <th id = "dess_calories">Calories</th>
 	      <th id = "dess_rest">Restrictions</th>
-	      <th id = "dess_fav">Favourite</th>
 	    </tr>
 	  </thead>
 	  <tbody id = "dessert_body">
@@ -85,7 +82,6 @@ $(loadMenu);
 	      <th id = "bev_name">Name</th>
 	      <th id = "bev_calories">Calories</th>
 	      <th id = "bev_rest">Restrictions</th>
-	      <th id = "bev_fav">Favourite</th>
 	    </tr>
 	  </thead>
 	  <tbody id = "beverage_body">

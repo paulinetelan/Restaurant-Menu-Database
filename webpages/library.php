@@ -153,8 +153,9 @@
 		
 	}
 
+
 	// returns food item tuples
-	function loadCustomerMenu($uname, $user_restrictions)
+	function loadCustomerMenu($user_restrictions)
 	{
 		global $link;
 
@@ -166,7 +167,6 @@
 
 		// query for all items
 		$sql = $link->prepare("SELECT m.item_name, m.meal_type, m.total_calories FROM Menu_item m");
-		//$sql->bind_param('s', $uname);
 		$sql->execute();
 		$sql->store_result();
 		$sql->bind_result($item_name, $meal_type, $total_calories);
@@ -196,7 +196,7 @@
 				$restrictionlist[$item][] = $restriction;
 				}
 				}
-						
+					
 			
 			}
 		}
