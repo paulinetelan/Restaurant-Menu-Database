@@ -35,7 +35,7 @@ $(loadCustomer);
     <!-- favourites -->
     <div class = "row">
       <h3><u>Favourites</u></h3>
-      <table style="width:100%;>
+      <table style="width:100%; ">
       <thead>
 	<tr>
 	  <th> Name </th>
