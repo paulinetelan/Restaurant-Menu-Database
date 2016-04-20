@@ -56,7 +56,7 @@ This php document returns data in JSON format
 	}
 
 	else if($method == "saveFavourites"){
-	     json_saveFavourites($_GET["favourites"]);
+	     json_saveFavourites($_GET["favourites"], $_GET["todelete"]);
 	}
 
 	else if($method == "getFavourites"){
@@ -106,14 +106,25 @@ This php document returns data in JSON format
 	}
 
 	// takes an array of favourites and saves favourites under customer name
-	function json_saveFavourites($faves){
+	function json_saveFavourites($faves, $delete){
 		 // retrieve username
 		 if (isset($_SESSION['username'])) {
-			 $uname = $_SESSION['username'];
 
-			 $output = array();
-			 $output["success"] = saveFavourites($uname, $faves);
+		    $output = array();
+		    $uname = $_SESSION['username'];
+
+		    if($faves != -1)
+		    {
+			 
+			 $output["success"] = addFavourites($uname, $faves);
+		}
+			 if($delete != -1)
+			 {
+				$output["success"] = deleteFavourites($uname, $delete);	
+			 }
+
 			 $output["message"] = "Favourites save unsuccessful!";
+
 			 if($output["success"])
 				$output["message"] = "Favourites saved successfully";
 			echo json_encode($output);

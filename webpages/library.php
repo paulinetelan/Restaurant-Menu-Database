@@ -321,7 +321,7 @@
 	
 	// adds customer favourites and returns true if successful
 	// takes customer username and array of favourites
-	function saveFavourites($uname, $favourites){
+	function addFavourites($uname, $favourites){
 		 
 		 global $link;
 
@@ -330,6 +330,29 @@
 		 {
 			// create sql statement
 		 	$sql = $link->prepare("INSERT INTO Favourite(cust_user, item_name) VALUES(?, ?) ");
+		 	$sql->bind_param("ss", $uname, $favourites[$i]);
+			$success = $sql->execute();
+			if(!$success)
+			{
+				return $success;
+			}
+		 }
+		 
+		 return $success;
+
+	}
+
+	// delete favourites
+	// takes customer username and array of favourites
+	function deleteFavourites($uname, $favourites){
+		 
+		 global $link;
+
+		 // insert one record in Favourites for each item
+		 for($i = 0; $i < sizeof($favourites); $i++)
+		 {
+			// create sql statement
+		 	$sql = $link->prepare("DELETE FROM Favourite WHERE cust_user = ? AND item_name = ? ");
 		 	$sql->bind_param("ss", $uname, $favourites[$i]);
 			$success = $sql->execute();
 			if(!$success)

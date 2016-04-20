@@ -35,14 +35,18 @@ $(loadCustomer);
     <!-- favourites -->
     <div class = "row">
       <h3><u>Favourites</u></h3>
-      <table style="width:100%" id="favourites_table">
+      <table style="width:100%;>
+      <thead>
 	<tr>
 	  <th> Name </th>
 	  <th> Calories </th>
 	  <th> Restriction/s </th>
 	  <th> Delete </th>
 	</tr>
+	</thead>
+	<tbody id="favourites_table">
 	<!-- populated by getFavourites() -->
+	</tbody>
       </table>
     </div>
 <br>

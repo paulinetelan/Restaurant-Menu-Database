@@ -383,19 +383,34 @@ function saveFavourites(){
 	faves.push($(this).attr("id"));
     });
 
-    $.get(WS_url, {method: "saveFavourites", favourites: faves}, function(response){
-	if(response.success){
+    var toDelete = new Array();
+    // check checked t items to delete
+    $("#favourites_table").find('input[type="checkbox"]:checked').each(function (){
+	toDelete.push($(this).attr("id"));
+    });
+
+    if(faves.length == 0){
+	faves = -1;
+    }
+
+    if(toDelete.length == 0){
+	toDelete = -1;
+    }
+
+
+    $.get(WS_url, {method: "saveFavourites", favourites: faves, todelete: toDelete}, function(response){
+	if(!response.success){
 	    alert(response.message);
-	    // TODO: reload favourites menu here
 	    
-	}else{
-	    alert(response.message);
 	}
     });
 
-    
-     // refresh page
-    location.reload();
+    // reset array
+    // delete array
+    var list = $("#favourites_table");
+    list.empty();
+    getFavourites();
+   
 }
 
 
@@ -421,7 +436,7 @@ function getFavourites(){
 		}
 
 		// insert into table in html
-		$('#favourites_table tr:last').after('<tr><td>'+item.name+'</td><td>'+item.calories+'</td><td>'+item.restrictions+'</td><td align="center"><input type="checkbox" id="'+item.name+'"></td></tr>');
+		$('#favourites_table').append('<tr><td>'+item.name+'</td><td>'+item.calories+'</td><td>'+item.restrictions+'</td><td align="center"><input type="checkbox" id="'+item.name+'"></td></tr>');
 	    }
 
 	   
