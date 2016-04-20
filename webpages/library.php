@@ -378,8 +378,6 @@
 		// execute sql statement
 		// the DBMS will check if the primary key exists and if the calories is an integer
 		if(!$sql->execute()) return false; // will return whether it succeeded
-		echo("got here");
-
 		// insert restrictions
 		foreach($restrictions as $r){
 			$sql = $link->prepare("INSERT INTO Ingredient_rest(ingredient_name, dr_name) VALUES (?, ?)");

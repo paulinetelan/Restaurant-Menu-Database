@@ -245,7 +245,7 @@ function loadBranchMenu(branchId){
 		// clear restrictions if there is none
 		if(item.restrictions == null)
 		    item.restrictions = "";
-
+		
 		$("#menu").append('<tr><td>'+key+'</td><td>'+item.ingredients+'</td><td>'+item.restrictions+'</td></tr>');
 	    }
 	    else{
@@ -514,29 +514,52 @@ function loadMenu(){
 		continue;
 	    }
 
-	    // if meal type = breakfast
- 	    if(item.type.localeCompare("Breakfast") == 0
-	       || item.type.localeCompare("breakfast") == 0){
-		$('#breakfast tbody:last').append('<tr><td>'+item.name+'</td><td>'+item.calories+'</td><td>'+item.restrictions+'</td></tr>');
+	    if(location.href.indexOf("defaultHome.php") != -1){
+		alert("hi");
+		// if meal type = breakfast
+ 		if(item.type.localeCompare("Breakfast") == 0
+		   || item.type.localeCompare("breakfast") == 0){
+		    $('#breakfast tbody:last').append('<tr><td>'+item.name+'</td><td>'+item.calories+'</td><td>'+item.restrictions+'</td></tr>');
+		}
+		else if(item.type.localeCompare("Lunch") == 0
+			|| item.type.localeCompare("lunch") == 0){
+		    $('#lunch tbody:last').append('<tr><td>'+item.name+'</td><td>'+item.calories+'</td><td>'+item.restrictions+'</td></tr>');
+		}
+		else if(item.type.localeCompare("Dessert") == 0
+			|| item.type.localeCompare("dessert") == 0){
+		    $('#dessert tbody:last').append('<tr><td>'+item.name+'</td><td>'+item.calories+'</td><td>'+item.restrictions+'</td></tr>');
+		}
+		else if(item.type.localeCompare("Beverages") == 0
+			|| item.type.localeCompare("beverages") == 0){
+		    $('#beverage tbody:last').append('<tr><td>'+item.name+'</td><td>'+item.calories+'</td><td>'+item.restrictions+'</td></tr>');
+		}
 	    }
-	    else if(item.type.localeCompare("Lunch") == 0
-		    || item.type.localeCompare("lunch") == 0){
-		$('#lunch tbody:last').append('<tr><td>'+item.name+'</td><td>'+item.calories+'</td><td>'+item.restrictions+'</td></tr>');
-	    }
-	    else if(item.type.localeCompare("Dessert") == 0
-		    || item.type.localeCompare("dessert") == 0){
-		$('#dessert tbody:last').append('<tr><td>'+item.name+'</td><td>'+item.calories+'</td><td>'+item.restrictions+'</td></tr>');
-	    }
-	    else if(item.type.localeCompare("Beverages") == 0
-		    || item.type.localeCompare("beverages") == 0){
-		$('#beverage tbody:last').append('<tr><td>'+item.name+'</td><td>'+item.calories+'</td><td>'+item.restrictions+'</td></tr>');
+	    else{
+		// if meal type = breakfast
+ 		if(item.type.localeCompare("Breakfast") == 0
+		   || item.type.localeCompare("breakfast") == 0){
+		    $('#breakfast tbody:last').append('<tr><td>'+item.name+'</td><td>'+item.calories+'</td><td>'+item.restrictions+'</td><td><input type="checkbox" id="'+item.name+'"></td></tr>');
+		}
+		else if(item.type.localeCompare("Lunch") == 0
+			|| item.type.localeCompare("lunch") == 0){
+		    $('#lunch tbody:last').append('<tr><td>'+item.name+'</td><td>'+item.calories+'</td><td>'+item.restrictions+'</td><td><input type="checkbox" id="'+item.name+'"></td></tr>');
+		}
+		else if(item.type.localeCompare("Dessert") == 0
+			|| item.type.localeCompare("dessert") == 0){
+		    $('#dessert tbody:last').append('<tr><td>'+item.name+'</td><td>'+item.calories+'</td><td>'+item.restrictions+'</td><td><input type="checkbox" id="'+item.name+'"></td></tr>');
+		}
+		else if(item.type.localeCompare("Beverages") == 0
+			|| item.type.localeCompare("beverages") == 0){
+		    $('#beverage tbody:last').append('<tr><td>'+item.name+'</td><td>'+item.calories+'</td><td>'+item.restrictions+'</td><td><input type="checkbox" id="'+item.name+'"></td></tr>');
+		}
+
 	    }
 	}
-	
+
 
     });
 
-   
+    
 }
 
 
